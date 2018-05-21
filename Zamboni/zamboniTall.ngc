@@ -1,6 +1,7 @@
 ;Change list:
 ;Toggle extrusion while keeping smooth movement
 ;Modify to se x0 and xf to arbitrary functions of step or another parameter
+
 G21 (mm)
 G90 (Absolute distance mode)
 G55 (Machine Plane Coordinates) 
@@ -46,7 +47,6 @@ M5 (Stop the spindle if it's left on)
 #<_layers> = 40
 #<_ystepf> = FIX[#<_l>/#<_delta>](_____-[#<_l> MOD #<_delta>]/#<_delta>])
 #<_xstepf> = FIX[#<_width>/#<_delta>]([_____-[#<_width> MOD #<_delta>]/#<_delta>])
-
 
 ;#<_yy> = [#<_yy> + #<_l> + 20]     ;position purge routine (y)
 #<_xx> = [#<_xx> - #<_width>+7] ;position purge routine (x)

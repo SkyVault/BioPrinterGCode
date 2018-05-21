@@ -1,50 +1,54 @@
-;Change list:
-;Toggle extrusion while keeping smooth movement
-;Modify to se x0 and xf to arbitrary functions of step or another parameter
+; Change list:
+; Toggle extrusion while keeping smooth movement
+; Modify to se x0 and xf to arbitrary functions of step or another parameter
+
 G21 (mm)
 G90 (Absolute distance mode)
 G55 (Machine Plane Coordinates) 
 G64 (Turn off exact stop check)
 M5 (Stop the spindle if it's left on)
 
-	;Quality Control Parameters
-	#<_speed> = 1100 (450)(300)
-	#<_mss> = 1  (1.28) (Margin Speed Scalar: the return speed on the margin)
+; Variables for controlling the model
 
-	#<_ccws> = 0.0006 ;extrude: extruder motor counter clockwise from top (0.005 to 0.007) 
-	#<_cws> = 0.005 (extruder back up, used before inter-layer pauses)
+; #<_speed> = 1100 (450)(300)
+#<_speed> = 1100 (450)(300)
+#<_mss> = 1  (1.28) (Margin Speed Scalar: the return speed on the margin)
 
-	#<_corners> = 0 (1 extrude on corners, 0 no extrude on corners)
-	#<_margin> = 8
-	#<_lo> = 2 ; loop offset, used to prevent errors from turn-arounds at row ends	
-	
-	#<_pause> = .0001 (wait time, used at corners)
-	
-	;work dimensions
-	#<_l> = 36 (mm length)
-	#<_width> = 36 (mm width)
-	#<_delta> = .75 (mm inter-row&column spacing)
-	#<_layerH> = .08 (mm layer height)
-	
-	;coordinates
-	#<_z0> = 2  (Initial Height of Needle Tip) (5)
-	#<_zz> = #<_z0>
+#<_ccws> = 0.0006 ;extrude: extruder motor counter clockwise from top (0.005 to 0.007) 
+#<_cws> = 0.005 (extruder back up, used before inter-layer pauses)
 
-	#<_x0> = 0 (initial x)
-	#<_xx> = #<_x0> (x)
+#<_corners> = 0 (1 extrude on corners, 0 no extrude on corners)
+#<_margin> = 8
+#<_lo> = 2 ; loop offset, used to prevent errors from turn-arounds at row ends	
 
-	#<_y0> = 0 (initial y)
-	#<_yy> = #<_y0> (y) 
-	
-	;counters
-	#<_zstep> = 0
-	#<_step> = 0
+#<_pause> = .0001 (wait time, used at corners)
 
-	;counter maximums
-	#<_layers> = 20
-	#<_ystepf> = FIX[#<_l>/#<_delta>](_____-[#<_l> MOD #<_delta>]/#<_delta>])
-	#<_xstepf> = FIX[#<_width>/#<_delta>]([_____-[#<_width> MOD #<_delta>]/#<_delta>])
+;work dimensions
+#<_l> = 36 (mm length)
+#<_width> = 36 (mm width)
+#<_delta> = .75 (mm inter-row&column spacing)
+#<_layerH> = .08 (mm layer height)
 
+;coordinates
+; #<_z0> = 2  (Initial Height of Needle Tip) (5)
+; #<_z0> = 1  (Initial Height of Needle Tip) (5)
+
+#<_zz> = 2
+
+#<_x0> = 0 (initial x)
+#<_xx> = #<_x0> (x)
+
+#<_y0> = 0 (initial y)
+#<_yy> = #<_y0> (y) 
+
+;counters
+#<_zstep> = 0
+#<_step> = 0
+
+;counter maximums
+#<_layers> = 20
+#<_ystepf> = FIX[#<_l>/#<_delta>](_____-[#<_l> MOD #<_delta>]/#<_delta>])
+#<_xstepf> = FIX[#<_width>/#<_delta>]([_____-[#<_width> MOD #<_delta>]/#<_delta>])
 
 ;#<_yy> = [#<_yy> + #<_l> + 20]     ;position purge routine (y)
 #<_xx> = [#<_xx> - #<_width>+7] ;position purge routine (x)
@@ -114,8 +118,8 @@ o110 while [#<_zstep> LE FIX[[#<_layers> - 1]/2]] (4)
 		;margin
 		G0 Y[#<_yy>] X[#<_xx> + [#<_margin>/2]] F[#<_speed>*#<_mss>]
 		G4 P#<_pause>
-		
 	o115 endwhile	
+
 	#<_zz> = [#<_zz>+#<_layerH>]
 	G0 Z[#<_zz>]
 	;#<_step> = 0
