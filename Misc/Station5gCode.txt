@@ -1,0 +1,21 @@
+# gcode program
+# setup G64 p2 and G64 p3 close tubes holding battery and tube
+m65 p2			Drop Battery
+m64 p1			Push Battery 
+m65 p3			Drop Tube
+m65 p1			retract battery pusher ( order on purpose ^)
+m64 p2			try to force p1 to retract
+
+g01 z-4.7 f60
+m65 p0			Make sure grabber is open
+g01 y222 f60.0		Move to grab tube (set place)
+g01 z0.0 f60.0		
+m64 p0			Grab tube
+g01 y22 f20.0 		move tube over nose (set place)
+g01 z1.25 f40
+g01 x2.0 f40
+m65 p0			release tube
+g01 x0.0 f40		unwind pneumatic tubes
+g01 z-4.86.0 y0.0 f40	move to home
+m64 p2
+m64 p3

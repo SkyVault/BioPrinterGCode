@@ -1,0 +1,52 @@
+G20 (Inches)
+G90 (Absolute distance mode)
+G55 (Machine Plane Coordinates) 
+
+    #<_ccws> = .05(extruding)
+    #<_cws> = 1 (back up)
+    #<_d_z> = 0 (Initial Height of Needle Tip)
+    #<_x> = 0 (h-r)
+    #<_y> = 1  (k)
+    #<_r> = 1 (radius in inches)  
+    #<_h> = 1  (x-center coordinate)
+    #<_k> = 1  (y-center coordinate)
+    #<_initial_X_> = 0 (x-center coordinate)
+    #<_initial_Y_> = 1  (y-center coordinate)
+    #<_delta> = 0.1  (width between rows)
+    #<_layer_hieght_> = .1 (height between layers)
+    #<_speed> = 5  (x-center coordinate)
+    #<_layers_> = 1
+    #<_toggle_> = 1 
+    
+    #<_i_> = [[2*#<_r>/ #<_delta>]-1] (number of rows per layer)
+				
+(o101 while[#<_layers_> LE 1])
+   (G0 Z#<_d_z>)
+   (M3 S#<_ccws>)
+ 
+ #<_x> = #<_initial_X_>
+ 
+ #<_step_> = 1
+(Draws additional line at top of circle to finish the approx. of the circle.)
+G1 X[#<_x>] F#<_speed>
+G1 Y[1.5*[#<_k> - #<_toggle_>*sqrt[-#<_h>*#<_h>+2*#<_h>*#<_x>+#<_r>*#<_r>-#<_x>*#<_x>]]] F#<_speed>
+#<_toggle_>= [#<_toggle_>*-1]
+ 
+ o101 while[#<_step_> LE #<_i_> ] (19 loops is approximatly max for delta of 0.1 and x origin 0.)
+       #<_x>= [#<_x> + #<_delta>]
+        G1 X[#<_x>]  F#<_speed>
+	#<_circle>=[-#<_h>*#<_h>+2*#<_h>*#<_x>+#<_r>*#<_r>-#<_x>*#<_x>]
+        G1 Y[#<_k>+#<_toggle_>*sqrt[#<_circle>]] F#<_speed>
+ 	#<_step_> = [1+ #<_step_>]
+	#<_toggle_>= [#<_toggle_>*-1]
+ o101 endwhile 
+(Draws additional line at bottom of circle to finish the approx. of the circle.)
+G1 X[#<_x>+#<_delta>] F#<_speed>
+G1 Y[3*[#<_k> - #<_toggle_>*sqrt[-#<_h>*#<_h>+2*#<_h>*#<_x>+#<_r>*#<_r>-#<_x>*#<_x>]]] F#<_speed>
+
+      (#<_layers_> = [#<_layers_> + 1])
+    
+(o101 endwhile)
+
+M30
+

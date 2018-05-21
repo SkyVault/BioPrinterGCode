@@ -1,0 +1,6 @@
+2299
+  PID TTY      STAT   TIME COMMAND
+2364
+  PID TTY      STAT   TIME COMMAND
+Stopping realtime threads
+Unloading hal components

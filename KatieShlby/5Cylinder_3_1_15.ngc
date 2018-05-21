@@ -1,0 +1,58 @@
+(AXIS, stop)
+G20 (Inches)
+G90 (Absolute distance mode)
+G55 (Machine Plane Coordinates) 
+
+    #<_ccws> = 0.001(extruding)
+    #<_cws> = 0.005 (back up)
+    #<_d_z> = 0 (Initial Height of Needle Tip)
+    #<_x> = 0.0  (h-r)
+    #<_y> = 0.0  (k)
+    #<_r> = 0.25  (radius in inches)  
+    #<_h> = 0.0  (x-center coordinate)
+    #<_k> = 0.0  (y-center coordinate)
+    #<_delta> = 0.000325  (width between rows)
+    #<_speed> = 0.0  (speed of nozzle)
+    
+#<_layers_> = 1
+
+o101 while [#<_layers_> LE 8]
+    G0 Z[#<_d_z>]
+    M3 S[#<_ccws>]
+    
+#<_step_> = 1
+   
+o101 while[#<_step_> LE 2]
+       #<_x> = [#<_x> + #<_delta>]
+        G1 X[#<_x>] 
+        ( G1 Y[#<_k>+SQRT[-#<_h>^2+2*#<_h>*#<_x>+#<_r>^2-#<_x>^2]], F#<_speed>)
+       ( G1 Y[#<_k>-SQRT[-#<_h>^2+2*#<_h>*#<_x>+#<_r>^2-#<_x>^2]] )
+	#<_step_> =[#<_step_> + 1] (Increase #100 by 1 each iteration of the loop)
+  o101 endwhile
+
+#<_step_> = 1
+
+o101 while [#<_step_> LE 2] 
+        #<_y>=[#<_y> + #<_delta>]
+        G1 Y[#<_y>] 
+        ( G1 X[#<_h>+SQRT[-#<_k>^2+2*#<_k>*#<_x>+#<_r>^2-#<_x>^2]], F#<_speed>)
+       ( G1 X[#<_h>-SQRT[-#<_k>^2+2*#<_k>*#<_x>+#<_r>^2-#<_x>^2]] )
+	#<_step_> = [#<_step_> + 1] (Increase #100 by 1 each iteration of the loop)
+  o101 endwhile
+	
+	G1 X[#<_start_x>]
+    	G1 Y[#<_start_y>]
+
+	M5
+	M4 S[#<_cws>] 
+	G4 P 5  (Pause Length in Seconds)
+	M5	
+	#<_d_z> = [#<_d_z> + 1]
+	#<_d_z_1> = [#<_d_z_1> + 1]
+       	G0 Z[#<_d_z_1>]
+	(G0 X#<_start_x> Y#<_start_y>)
+ #<_layers_> = [#<_layers_> + 1]
+    
+  o101 endwhile
+
+M30

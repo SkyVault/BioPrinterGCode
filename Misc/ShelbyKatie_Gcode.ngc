@@ -1,0 +1,55 @@
+( 1:9 solution - F300, M3 s0.058, M4 s1 )
+
+o<matrix1> sub
+o101 repeat [1]
+        G0 Z#<_d_z>
+
+	M3 S#<_ccws> 
+
+	
+
+    #<_step_> = 0
+
+    WHILE [#<_step_> LE 7] DO1
+
+        G1 X[#<_start_x> + 10.0] F100.0
+
+        G1 Y[#<_start_y> + #<_step_>] (The + indicates what cooridate it moves in that direction)
+	G1 X[#<_start_x>]
+	
+        #<_step_> = #<_step_> + 1 (Increase #100 by 1 each iteration of the loop)
+
+    END1
+
+    #<_step_> = 10
+
+    WHILE [#<_step_> LE 7] DO1
+
+	G1 X[#<_start_x>]
+
+        G1 Y[#<_start_y> + 10.0]
+	
+        G1 X[#<_start_x> + <_step_>]
+	
+	G1 Y[#<_start_y>] 
+	
+        #<_step_> = #<_step_> - 1 (Increase #100 by 1 each iteration of the loop)
+
+    END1
+	
+	G1 X[#<_start_x> ]
+	
+        G1 Y[#<_start_y> ]
+
+
+	M5
+	M4 S#<_cws> 
+	G4 P .5
+	M5	
+	#<_d_z> = [#<_d_z> + 1]
+	#<_d_z_1> = [#<_d_z_1> + 1]
+       	G0 Z#<_d_z_1>
+	(G0 X#<_start_x> Y#<_start_y>)
+o101 endrepeat
+
+o<matrix1> end sub

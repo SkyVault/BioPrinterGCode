@@ -1,0 +1,117 @@
+G21 (mm)
+G90 (Absolute distance mode)
+G55 (Machine Plane Coordinates) 
+
+    #<_ccws> = .5(extruding)
+    #<_cws> = 0.05 (back up)
+    #<_d_z> = 0.2 (Initial Height of Needle Tip)
+    #<_x_X> = 0.1 (h-r)
+    #<_y_Y> = 0.4  (k)
+    #<_r> = 6.35 (radius in mm)  
+    #<_h> = 6 (x-center coordinate)
+    #<_k> = -2  (y-center coordinate)
+    #<_initial_X_> = 0 (x-center coordinate)
+    #<_initial_Y_> = 0.5  (y-center coordinate)
+    #<_delta> = 2  (width between rows)
+    #<_layer_height_> = .1 (height between layers)
+    #<_speed> = 600  
+    #<_layers_> = 1
+    #<_step_> = 1
+    #<_toggle_> = 1 
+    #<_ztoggle_> = -1
+    #<_i_> = [[2*#<_r>/ #<_delta>]-1] (number of rows per layer)
+
+	
+
+o101 while [#<_layers_> LE 12]
+   G0 X[#<_x_X>] 
+   G1 Z#<_d_z> F#<_speed>
+   M3 S#<_ccws>
+   (set x and y to initial values)
+   
+o102 if [ #<_ztoggle_> LT 0]   
+
+(Draws additional line at top of circle to finish the approx. of the circle.)
+G1 X[#<_x_X>] F#<_speed>
+G1 Y[1.5*[#<_k> - #<_toggle_>*sqrt[-#<_h>*#<_h>+2*#<_h>*#<_x_X>+#<_r>*#<_r>-#<_x_X>*#<_x_X>]]] F#<_speed>
+#<_toggle_>= [#<_toggle_>*-1]
+ 
+   
+   #<_step_> = 1
+   #<_toggle_> = 1 
+
+ o103 while [#<_step_> LE #<_i_> ] (19 loops is approximatly max for delta of 0.1 and x origin 0.)
+        #<_x_X>= [#<_x_X> + #<_delta>]
+        (M4 S#<_cws>)
+	G0 X[#<_x_X>]  F#<_speed>
+	M3 S#<_ccws>
+	#<_circle_y>=[ABS[-#<_h>*#<_h>+2*#<_h>*#<_x_X>+#<_r>*#<_r>-#<_x_X>*#<_x_X>]]
+        G1 Y[#<_k>+#<_toggle_>*sqrt[#<_circle_y>]] F#<_speed>
+ 	#<_step_> = [1+ #<_step_>]
+	#<_toggle_>= [#<_toggle_>*-1]
+ o103 endwhile
+
+(Draws additional line at bottom of circle to finish the approx. of the circle.)
+G1 X[#<_x_X>+ #<_delta>] F#<_speed>
+G1 Y[1.5*[#<_k> - #<_toggle_>*sqrt[ABS[-#<_h>*#<_h>+2*#<_h>*#<_x_X>+#<_r>*#<_r>-#<_x_X>*#<_x_X>]]]] F#<_speed>
+
+o102 else (if [#<_ztoggle_> GT 0])
+
+(Draws additional line at top of circle to finish the approx. of the circle.)
+G1 Y[#<_x_X>] F#<_speed>
+G1 X[1.5*[#<_h> - #<_toggle_>*sqrt[[-#<_k>*#<_k>+2*#<_k>*#<_x_X>+#<_r>*#<_r>-#<_x_X>*#<_x_X>]]]] F#<_speed>
+#<_toggle_>= [#<_toggle_>*1]
+  
+  #<_step_> = 1
+  #<_x_X>= [#<_x_X> - 5*#<_delta>]
+  (M4 S#<_cws>)
+  G0 Y[#<_x_X>]
+  
+
+
+ o104 while [#<_step_> LE #<_i_> ] (19 loops is approximatly max for delta of 0.1 and x origin 0.)
+        #<_x_X>= [#<_x_X> + #<_delta>]
+        (M4 S#<_cws>)
+	G0 Y[#<_x_X>]  F#<_speed>
+	M3 S#<_ccws>
+	#<_circle_x>=[ABS[-#<_k>*#<_k>+2*#<_k>*#<_x_X>+#<_r>*#<_r>-#<_x_X>*#<_x_X>]]
+        G1 X[#<_h>+#<_toggle_>*sqrt[#<_circle_x>]] F#<_speed>
+ 	#<_step_> = [1 + #<_step_>]
+	#<_toggle_>= [#<_toggle_>*-1]
+ o104 endwhile 
+ 
+(Draws additional line at bottom of circle to finish the approx. of the circle.)
+G1 Y[#<_x_X>+#<_delta>] F#<_speed>
+G1 X[1.5*[#<_h> - #<_toggle_>*sqrt[ABS[-#<_k>*#<_k>+2*#<_k>*#<_x_X>+#<_r>*#<_r>-#<_x_X>*#<_x_X>]]]] F#<_speed>
+
+
+
+o102 endif  
+  
+o105 if [#<_layers_> MOD 3 EQ 0]
+	M4 S#<_cws>
+	G0 Y[-15]  F#<_speed>
+	G4 P 5  (Pause Length in Seconds)
+	G0 Y[#<_x_X>]  F#<_speed>	
+	M3 S#<_ccws>
+ o105 endif  
+    
+     #<_toggle_> = 1 
+     #<_x_X> = 0
+     #<_x_X> = 0.42
+     (M4 S#<_cws>)
+     G0 X#<_x_X> F#<_speed>
+(G1 Y[1.5*[#<_k> - #<_toggle_>*sqrt[-#<_h>*#<_h>+2*#<_h>*#<_x_X>+#<_r>*#<_r>-#<_x_X>*#<_x_X>]]] F#<_speed>)
+     G0 Y#<_x_X> F#<_speed>
+     #<_d_z> = [#<_d_z>+#<_layer_height_>]
+     #<_layers_> = [#<_layers_>+1]
+     #<_step_> = 1
+
+ #<_ztoggle_>=[-1* #<_ztoggle_>]
+
+o101 endwhile
+
+M30
+
+ 
+

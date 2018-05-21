@@ -1,0 +1,885 @@
+    1  exit
+    2  ls
+    3  scp -rp engr-d510@engr-d510-3.wallawalla.edu:emc2 .
+    4  ls
+    5  cd emc2/configs
+    6  ls
+    7  cd icing
+    8  ls
+    9  vi icing.ini
+   10  vi icing.hal
+   11  emc icing.ini
+   12  vi icing.hal
+   13  emc icing.ini
+   14  vi icing.hal
+   15  emc icing.ini
+   16  vi icing.hal
+   17  vi icing.ini
+   18  emc icing.ini
+   19  vi icing.ini
+   20  vi icing.hal
+   21  emc icing.ini
+   22  vi icing.hal
+   23  cd ..
+   24  scp -r icing engr-d510@engr-d510-3:emc2/configs/icing2
+   25  sudo apt-get install openssh
+   26  dmesg
+   27  ls
+   28  less emc_debug.txt
+   29  less emc_print.txt
+   30  cd emc2/configs
+   31  ls
+   32  cd icing
+   33  ls
+   34  emc icing.ini
+   35  ls
+   36  more emc.var
+   37  ls
+   38  emc icing.ini
+   39  cd emc2-dev
+   40  ls
+   41  cd emc2
+   42  ls
+   43  cd configs
+   44  ls
+   45  cd mesa
+   46  ls
+   47  more mesa.hal
+   48  cd ..
+   49  ls
+   50  cd icing
+   51  ls
+   52  less icing.hal
+   53  cd /etc
+   54  ls
+   55  find /etc -name '*hm2*'
+   56  find /var -name '*hm2*'
+   57  ls
+   58  cd emc2
+   59  ls
+   60  cd ..
+   61  ls
+   62  ls hal
+   63  cd /lib/firmware
+   64  ls
+   65  cd hm2
+   66  ls
+   67  cd 7i43-2
+   68  ls
+   69  cd ../7i43
+   70  ls
+   71  cd ../7i43-2
+   72  cd
+   73  ls
+   74  cd emc2
+   75  ls
+   76  cd configs
+   77  ls
+   78  cd emc2/configs/icing
+   79  emc icing.ini
+   80  more emc_print.txt
+   81  more ~/emc_print.txt
+   82  emc icing.ini
+   83  vi icing.ini
+   84  sudo apt-get install vim
+   85  vi icing.ini
+   86  emc icing.ini
+   87  cd ..
+   88  scp -r engr-d510-3:emc2/configs/icing2 .
+   89  cd icing2
+   90  emc icing.ini
+   91  shutdown -h now
+   92  sudo shutdown -h now
+   93  cd emc2/configs/icing2
+   94  emc icing.ini
+   95  exit
+   96  ls
+   97  cd emc2
+   98  ls
+   99  cd configs
+  100  ls
+  101  scp -rp engr-d510-3.wallawalla.edu:emc2/configs/one-station-test* .
+  102  ls
+  103  cd one-station-test
+  104  ls
+  105  emc one-station-test.ini
+  106  cd configs
+  107  cd emc2/configs
+  108  ls
+  109  cd one-station-test
+  110  ls
+  111  vi one-station-test.ini
+  112  ssh -Y engr-d510-3
+  113  exit
+  114  find / -name TPEN4_5.BIT
+  115  find / -name "*TPEN4_5*"
+  116  find / -name "*TPEN4_5*" | less
+  117  cd /usr/share/doc/hostmot2-firmware-7i43-4
+  118  ls
+  119  more TPEN4_5.PIN
+  120  exit
+  121  cd emc2/configs
+  122  ls
+  123  ls mesa
+  124  ls racetrack5
+  125  more racetrack5/notes.txt
+  126  ls
+  127  sudo apt-get install linuxcnc
+  128  linuxcnc
+  129  cd linuxcnc/configs/bio2
+  130  linuxcnc bio7.ini
+  131  df
+  132  dmesg
+  133  sudo mkdir /media/sdb1
+  134  sudo mount -t ext4 /dev/sdb1 /media/sdb1
+  135  ls /media/sdb1
+  136  ls
+  137  mkdir linuxcnc/configs/bio2
+  138  mkdir linuxcnc linuxcnc/configs linuxcnc/configs/bio2
+  139  cp -Rp /media/sdb1/home/engr-d510/linuxcnc .
+  140  cd linuxcnc/configs/bio2
+  141  ls
+  142  linuxcnc bio7.ini
+  143  sudo apt-get update
+  144  sudo apt-get upgrade
+  145  cd linuxcnc/configs/bio2
+  146  ls
+  147  vi bio7.hal
+  148  cp bio7.ini bio7swap.ini
+  149  vi bio7swap.ini
+  150  dmesg
+  151  dmesg | less
+  152  less /var/log/syslog
+  153  cd /etc/init
+  154  ls
+  155  sudo vi avahi-daemon.conf
+  156  cd ../default
+  157  ls avahi*
+  158  sudo vi avahi-daemon
+  159  exit
+  160  ssh -Y engr-projects@snake.wallawalla.edu
+  161  exit
+  162  cd linuxcnc/configs/bio2
+  163  ls
+  164  linuxcnc bio7swap.ini
+  165  cd /var/log
+  166  less syslog
+  167  exit
+  168  dmesg | less
+  169  ps aguwx | grep avahi
+  170  less /var/log/syslog
+  171  ifconfig
+  172  dmesg
+  173  exit
+  174  cd linuxcnc/configs
+  175  ls
+  176  mkdir m2
+  177  cd m2
+  178  exit
+  179  dmesg
+  180  less ~/emc_*.txt
+  181  cat ~/emc_*.txt
+  182  cd linuxcnc/configs/m2
+  183  ls
+  184  vi mesa_bspi.comp
+  185  cd
+  186  cd linuxcnc-dev
+  187  ls
+  188  ./configure
+  189  cd src
+  190  ./configure
+  191  ls
+  192  autogen.sh
+  193  make clean
+  194  ./autogen.sh
+  195  ./configure
+  196  make clean
+  197  make
+  198  sudo apt-get install libmodbus-dev
+  199  ./configure
+  200  sudo apt-get install libusb-1.0-0-dev
+  201  ./configure
+  202  sudo apt-get install boost
+  203  sudo apt-get install boost-python
+  204  ./configure
+  205  make
+  206  sudo make setuid
+  207  cd ..
+  208  . scripts/rip-environment
+  209  pncconf
+  210  cd configs
+  211  ls
+  212  ls ~/linuxcnc/configs
+  213  vi ~/linuxcnc/configs/intellipaper/intellipaper.hal
+  214  cd ../src
+  215  ls
+  216  cd hal
+  217  ls
+  218  cd drivers
+  219  ls
+  220  ls /linux
+  221  ls /usr/include
+  222  comp --compile mesa_7i65.com
+  223  comp --compile mesa_7i65.comp
+  224  cd ../../..
+  225  . scripts/rip-environment
+  226  cd src/hal/drivers
+  227  vi mesa_7i65.comp
+  228  which comp
+  229  comp --version
+  230  comp --compile mesa_7i65.comp
+  231  ls /linux
+  232  ls /boot
+  233  ls /usr/src
+  234  ls /usr/src/linux*rtai
+  235  ls /usr/src/linux*rtai/include
+  236  cd
+  237  cd linuxcnc/configs/m2
+  238  ls
+  239  linuxcnc m2.ini
+  240  dmesg
+  241  linuxcnc m2.ini
+  242  touch custom.hal shutdown.hal
+  243  linuxcnc m2.ini
+  244  touch postgui_call_list.hal
+  245  linuxcnc m2.ini
+  246  dmesg
+  247  ls ../..
+  248  ls /home/engr-d510/linuxcnc-dev/src/hal/drivers
+  249  ls /home/engr-d510/linuxcnc-dev/src/hal/drivers/mesa-hostmot2
+  250  linuxcnc m2.ini
+  251  comp --compile mesa_bspi.comp
+  252  which comp
+  253  cd
+  254  cd linuxcnc-dev
+  255  ls
+  256  cd bin
+  257  ls
+  258  cd ..
+  259  ls
+  260  history
+  261  . scripts/rip-environment
+  262  exit
+  263  cd linuxcnc/configs
+  264  ls
+  265  cd bio2
+  266  ls
+  267  vi bio7swap.hal
+  268  ls
+  269  cd ../m2
+  270  ls
+  271  find /usr -name '*.BIT' -print
+  272  ls /
+  273  find /lib -name '*.BIT' -print
+  274  sudo c p-p SVSTSPI*.BIT /lib/firmware/hm2/7i43-4
+  275  sudo cp -p SVSTSPI*.BIT /lib/firmware/hm2/7i43-4
+  276  ls /lib/firmware/hm2/7i43-4
+  277  find /usr -name '*.comp'
+  278  find /lib -name '*.comp'
+  279  vi m2.hal
+  280  cd ../..
+  281  cd ..
+  282  ls
+  283  ls linuxcnc
+  284  ls linuxcnc/vision
+  285  ls emc2
+  286  ls emc2/vision
+  287  ls emc2/comm
+  288  ls emc2/configs
+  289  ls emc2/configs/x-test
+  290  find emc2/configs -name '*.comp'
+  291  ls /usr/share
+  292  which comp
+  293  locate linuxcnc-dev-2.5
+  294  find / -name linuxcnc-dev-2.5
+  295  find /usr -name linuxcnc-dev-2.5
+  296  cd linuxcnc/configs/m2
+  297  ls
+  298  vi mesa_7i65.comp
+  299  ls
+  300  vi mesa_bspi.com
+  301  vi mesa_bspi.comp
+  302  linuxcnc m2.ini
+  303  dmesg
+  304  linuxcnc m2.ini
+  305  dmesg
+  306  cat ~/emc-*.txt
+  307  cat ~/emc*.txt
+  308  . ~/linuxcnc-dev/scripts/*run*
+  309  history
+  310  . scripts/rip-environment
+  311  cd linuxcnc-dev
+  312  ls scripts
+  313  . scripts/rip-environment
+  314  cd
+  315  cd linuxcnc/configs/m2
+  316  comp --compile mesa_bspi.comp
+  317  cd
+  318  cd linuxcnc-dev/src/hal/drivers
+  319  ls
+  320  comp --compile mesa_7i65.comp
+  321  cd mesa-hostmot2
+  322  ls
+  323  grep bspi *.c
+  324  vi hostmot2.c
+  325  cat ~/linuxcnc-dev/scripts/*run*
+  326  ls ~/linuxcnc-dev/scripts/*run*
+  327  history
+  328  cat ~/linuxcnc-dev/scripts/*rip*
+  329  . ~/linuxcnc-dev/scripts/*rip*
+  330  vi ~/linuxcnc-dev/scripts/*rip*
+  331  env
+  332  env | grep PATH
+  333  which linuxcnc
+  334  ls
+  335  more README
+  336  ls
+  337  vi hostmot2.c
+  338  vi hm2_7i43.c
+  339  cd ..
+  340  ls
+  341  cd ..
+  342  ls
+  343  ls utils
+  344  cd ../..
+  345  cd bin
+  346  ls
+  347  ./pncconf
+  348  pushd ~/linuxcnc/configs
+  349  ls
+  350  cd intellipaper2
+  351  ls
+  352  vi in*.hal
+  353  cd ..
+  354  popd
+  355  ./pncconf
+  356  popd
+  357  pushd ~/linuxcnc/configs
+  358  vi intellipaper2/in*.hal
+  359  popd
+  360  ./pncconf
+  361  pushd ~/linuxcnc/configs
+  362  vi intellipaper2/in*.hal
+  363  ls
+  364  vi intellipaper2.pncconf
+  365  ls intellipaper2
+  366  ls -l intellipaper2
+  367  vi intellipaper2/intell*.ini
+  368  vi intellipaper2/intell*.hal
+  369  man hm2_5i25
+  370  man hm2_7i43
+  371  popd
+  372  cd ../src
+  373  ls
+  374  cd hal/drivers
+  375  ls
+  376  cd mesa-hostmot2/
+  377  ls
+  378  vi hostmot2.c
+  379  ls firmware
+  380  dmesg
+  381  ls
+  382  vi stepgen.c
+  383  vi bspi.c
+  384  cd Downloads
+  385  ls machinekit-vel-control-extruding.zip 
+  386  ls
+  387  unzip machinekit-vel-control-extruding.zip
+  388  cd ma
+  389  cd machinekit-vel-control-extruding/
+  390  ls
+  391  cd configs
+  392  ls
+  393  grep -R vel *
+  394  ls
+  395  grep -R vel- *
+  396  cd
+  397  cd linuxcnc/configs/m2
+  398  dmesg
+  399  cd
+  400  cd linuxcnc-dev
+  401  ls
+  402  cd src
+  403  ls
+  404  cd hal
+  405  ls
+  406  cd drivers
+  407  ls
+  408  vi mesa_7i65.comp
+  409  history | grep run
+  410  history
+  411  cd
+  412  cd linuxcnc/configs
+  413  env | grep PATH
+  414  . ~/linuxcnc-dev/scripts/*rip*
+  415  env | grep PATH
+  416  linuxcnc m2.ini
+  417  cd m2
+  418  linuxcnc m2.ini
+  419  dmesg
+  420  linuxcnc m2.ini
+  421  ls
+  422  comp --compile mesa_bspi.comp
+  423  linuxcnc m2.ini
+  424  cd linuxcnc/configs/bio2
+  425  ls
+  426  linuxcnc bio7swap.ini
+  427  cd ../m2
+  428  cd ../bio2
+  429  more bio2swap.hal
+  430  ls
+  431  more bio7swap.hal
+  432  cd ../m2
+  433  linuxcnc m2.ini
+  434  vi m2.hal
+  435  linuxcnc m2.ini
+  436  ls
+  437  comp --compile mesa_bspi.comp
+  438  sudo apt-get install linuxcnc-dev
+  439  comp --compile mesa_bspi.comp
+  440  comp --compile mesa_7i65.comp
+  441  ls
+  442  comp --install mesa_bspi.comp
+  443  cd
+  444  ls
+  445  git clone git://git.linuxcnc.org/git/linuxcnc.git linuxcnc-dev
+  446  sudo apt-get install git-core
+  447  git clone git://git.linuxcnc.org/git/linuxcnc.git linuxcnc-dev
+  448  cd linuxcnc-dev
+  449  ls
+  450  grep -R "Realtime component" *
+  451  find . -name comp.py
+  452  make comp.py
+  453  ls
+  454  grep -R comp.py *
+  455  ls
+  456  more VERSION
+  457  more README
+  458  ls bin
+  459  cd
+  460  cd linuxcnc/configs
+  461  ls
+  462  ls m2
+  463  cd m2
+  464  vi m2.hal
+  465  du .
+  466  du -s .
+  467  man du
+  468  du -hs .
+  469  ls /media
+  470  ls /media/B16C-E476/
+  471  df /media/B16C-E476/
+  472  df -h /media/B16C-E476/
+  473  mkdir /media/B16C-E476//engr-d510-5
+  474  cp -Rp * /media/B16C-E476//engr-d510-5
+  475  exit
+  476  dpkg -l
+  477  dpkg --get-selections > /media/B16C-E476//engr-d510-5/Package.list
+  478  ls /etc/apt/sources.list*
+  479  more /etc/apt/sources.list*
+  480  sudo cp -R /etc/apt/sources.list* /media/B16C-E476/engr-d510-5
+  481  sudo apt-key exportall > /media/B16C-E476/engr-d510-5/Repo.keys
+  482  vi /media/B16C-E476/engr-d510-5/instructions.txt
+  483  exit
+  484  man dpkg
+  485  ls
+  486  cd linuxcnc/configs
+  487  ls
+  488  cd bio2
+  489  ls
+  490  cd linuxcnc/nc_files/icing
+  491  ls
+  492  ~/Downloads/Slic3r/bin/*.sh /home/engr-d510/linuxcnc/nc_files/icing/wall.ngc.orig
+  493  pushd ~/Downloads/Slic3r/bin
+  494  ~/Downloads/Slic3r/bin/*.sh /home/engr-d510/linuxcnc/nc_files/icing/wall.ngc.orig
+  495  ls
+  496  vi slic3r-postprocess.sh 
+  497  ls
+  498  popd
+  499  ls
+  500  ls -l
+  501  rm wall.ngc.orig*
+  502  ls
+  503  ls -l
+  504  more wall1.ngc
+  505  pushd ~/Downloads/Slic3r/bin
+  506  ls
+  507  vi *.sh
+  508  pushd
+  509  ls -l
+  510  pushd
+  511  ls
+  512  slic3r-postprocess.sh /home/engr-d510/linuxcnc/nc_files/icing/wall.ngc
+  513  ./slic3r-postprocess.sh /home/engr-d510/linuxcnc/nc_files/icing/wall.ngc
+  514  ls
+  515  vi slic3r-postprocess.sh 
+  516  ./slic3r-postprocess.sh /home/engr-d510/linuxcnc/nc_files/icing/wall.ngc
+  517  grep M82 *
+  518  ls
+  519  vi *.sh
+  520  ./slic3r-postprocess.sh /home/engr-d510/linuxcnc/nc_files/icing/wall.ngc
+  521  grep M68 *
+  522  vi clean*n.py
+  523  ./slic3r-postprocess.sh /home/engr-d510/linuxcnc/nc_files/icing/wall.ngc
+  524  sudo apt-get install openscad
+  525  sudo add-apt-repository ppa:openscad/releases
+  526  sudo apt-get install openscad
+  527  sudo apt-get install OpenSCAD
+  528  sudo synaptic
+  529  cd ../..
+  530  ls
+  531  tar tvfz openscad-2014.03.x86-32.tar.gz 
+  532  tar xvfz openscad-2014.03.x86-32.tar.gz
+  533  cd openscad-2014.03/
+  534  ls
+  535  sudo install.sh
+  536  sudo ./install.sh
+  537  openscad
+  538  cd linuxcnc/nc_files
+  539  ls
+  540  cd icing
+  541  ls
+  542  slic3r
+  543  which slic3r
+  544  ls /usr/local/bin
+  545  ls -l /usr/local/bin
+  546  slic3r
+  547  cd
+  548  ls
+  549  vi .bashrc
+  550  grep PATH .*
+  551  vi .profile
+  552  source .profile
+  553  cd linuxcnc/nc_files/icing
+  554  slic3r
+  555  which slic3r-postprocess.sh
+  556  ls
+  557  slic3r-postprocess.sh wall.ngc
+  558  ls
+  559  ls -l
+  560  more wall.ngc
+  561  vi wall.ngc
+  562  slic3r-postprocess.sh wall.ngc
+  563  ls
+  564  mv wall.ngc.orig wall.ngc
+  565  slic3r-postprocess.sh wall.ngc
+  566  ls -l
+  567  ls
+  568  ls -l
+  569  vi wall.ngc
+  570  cd ../..
+  571  cd configs/bio2
+  572  ls
+  573  vi bio7.ini
+  574  cd ../../nc_files/icing
+  575  ls
+  576  vi wall.ngc
+  577  exit
+  578  cd linuxcnc/configs
+  579  ls
+  580  cd bio2
+  581  ls
+  582  linuxcnc bio7.ini
+  583  history
+  584  linuxcnc bio7.ini
+  585  dmesg
+  586  linuxcnc bio7.ini
+  587  exit
+  588  ifconfig
+  589  ls
+  590  cd Downloads
+  591  ls
+  592  tar xvfz slic3r-linux-x86-1-1-7-stable.tar.gz 
+  593  cd Slic3r/
+  594  ls
+  595  ls bin
+  596  find . -name do-install
+  597  ls
+  598  cd bin
+  599  ls
+  600  ls -la
+  601  ls /usr/share/bin
+  602  ls /usr/local/bin
+  603  sudo ln -s slic3r /usr/local/bin/slic3r
+  604  cd
+  605  cd linuxcnc/nc_files
+  606  ls
+  607  slic3r
+  608  rehash
+  609  env
+  610  cd
+  611  cd Downloads/Slic3r/bin
+  612  ls
+  613  sudo rm /usr/local/bin/slic3r
+  614  sudo ln -s /home/engr-d510/Downloads/Slic3r/bin/slic3r /usr/local/bin/slic3r
+  615  sudo rm /usr/local/bin/slic3r
+  616  cd ../..
+  617  ls
+  618  tar tvfz sli*exp*.gz
+  619  ls
+  620  mv Slic3r Slic3r.stable
+  621  tar xvfz slic*exp*.gz
+  622  mv Slic3r Slic3r.exp
+  623  mv Slic3r.stable Slic3r
+  624  cd Slic3r.exp
+  625  ls
+  626  ls bin
+  627  cd ..
+  628  mkdir slic3rgit
+  629  cd slic3rgit
+  630  git clone git://github.com/alexrj/Slic3r
+  631  cd Slic3r
+  632  ls
+  633  sudo perl Build.PL
+  634  sudo apt-get install cpanminus
+  635  curl -L http://cpanmin.us | perl - --sudo App::cpanminus
+  636  sudo apt-get install curl
+  637  curl -L http://cpanmin.us | perl - --sudo App::cpanminus
+  638  sudo apt-get install build-essential
+  639  sudo apt-get install libgtk2.0-dev
+  640  sudo apt-get install libwxgtk2.8-dev
+  641  sudo apt-get install libwx-perl
+  642  apt-get install libmodule-build-perl
+  643  sudo apt-get install libmodule-build-perl
+  644  sudo perl Build.PL
+  645  curl -L http://cpanmin.us | perl - --sudo --installdeps
+  646  curl -L http://cpanmin.us | perl - --sudo --installdeps .
+  647  history
+  648  curl -L http://cpanmin.us | perl - --sudo App::cpanminus
+  649  cd ../..
+  650  cd Slic3r
+  651  ls
+  652  cd bin
+  653  ls
+  654  ./slic3r
+  655  sudo apt-get install glibc
+  656  sudo apt-get install libstdc++6
+  657  sudo ldconfig
+  658  sudo add-apt-repository ppa:ubuntu-toolchain-r/test 
+  659  sudo apt-get update
+  660  sudo apt-get upgrade
+  661  ./slic3r
+  662  sudo apt-get dist-upgrade
+  663  ./slic3r
+  664  ln -s ~/Downloads/Slic3r/bin/slic3r /usr/local/bin/slic3r
+  665  sudo ln -s ~/Downloads/Slic3r/bin/slic3r /usr/local/bin/slic3r
+  666  pushd
+  667  ls
+  668  popd
+  669  cd
+  670  cd linuxcnc/nc_files/icing
+  671  ls
+  672  vi wall.ngc
+  673  ls -l
+  674  more wall.ngc.orig
+  675  slic3r
+  676  exit
+  677  cd Downloads/Slic3r/bin
+  678  ls
+  679  ./slic3r-postprocess.sh ~/linuxcnc/nc_files/icing/cube.ngc
+  680  ls
+  681  grep M3 *.py
+  682  grep M5 *.py
+  683  vi clean*ion.py
+  684  ./slic3r-postprocess.sh ~/linuxcnc/nc_files/icing/cube.ngc
+  685  vi clean*ion.py
+  686  ./slic3r-postprocess.sh ~/linuxcnc/nc_files/icing/cube.ngc
+  687  ls /media
+  688  ls /media/B16C-E476/
+  689  cp /media/B16C-E476//star_for*.stl ~/linuxcnc/nc_files/icing
+  690  ls ~/linuxcnc/nc_files/icing
+  691  ./slic3r-postprocess.sh ~/linuxcnc/nc_files/icing/star*.ngc
+  692  ./slic3r-postprocess.sh ~/linuxcnc/nc_files/icing/cube.ngc
+  693  cd linuxcnc/nc_files/icing
+  694  ls
+  695  cp wall.scad cube.scad
+  696  vi cube.scad
+  697  cd linuxcnc/configs/bio2/
+  698  ls
+  699  linuxcnc bio7.ini
+  700  cd Downloads/Slic3r/bin
+  701  ls
+  702  ./slic3r
+  703  cd linuxcnc/nc_files/icing
+  704  ls
+  705  openscad
+  706  history
+  707  cd linuxcnc/nc_files/icing
+  708  ./slic3r-postprocess.sh ~/linuxcnc/nc_files/icing/cube.ngc
+  709  ls
+  710  pushd ~/Downloads/Slic3r
+  711  ls
+  712  cd bin
+  713  ls
+  714  ./slic3r-postprocess.sh ~/linuxcnc/nc_files/icing/cube.ngc
+  715  exit
+  716  cd linuxcnc/nc_files
+  717  ls
+  718  grep matrix1 *.ngc
+  719  cd bio
+  720  ls
+  721  cd ..
+  722  ls
+  723  view shelbykatie_gcode.ngc
+  724  view matrix1.ngc
+  725  view footer.ngc
+  726  view header
+  727  view 3x3_10mm_matirx.ngc
+  728  view shelbykatie_gcode.ngc
+  729  grep _d_z *.ngc
+  730  view NewTest.ngc
+  731  grep call *
+  732  view NewTest.ngc
+  733  exit
+  734  cd linuxcnc/nc_files/icing
+  735  ls
+  736  ls cyl*
+  737  diff cylinder_test{1,2}.ngc
+  738  diff cylinder_test{1,2}.ngc.orig
+  739  exit
+  740  history
+  741  cd linuxcnc/nc_files/icing
+  742  ls
+  743  vi cube.scad
+  744  openscad
+  745  ls -l
+  746  ls -l cube*
+  747  ifconfig
+  748  ls -l *.ngc
+  749  exit
+  750  cd linuxcnc/configs/bio2
+  751  linuxcnc bio7.ini
+  752  exit
+  753  history
+  754  cd Downloads/Slic3r/bin
+  755  ./slic3r
+  756  :q
+  757  ./slic3r
+  758  :q
+  759  exit
+  760  cd linuxcnc/configs/bio2
+  761  ls
+  762  cd ../..
+  763  cd nc_files/
+  764  ls
+  765  cd bio
+  766  ls
+  767  cd ..
+  768  cd icing
+  769  ls
+  770  vi cube.scad
+  771  openscad
+  772  exit
+  773  history
+  774  cd Downloads/Slic3r/bin
+  775  ./slic3r
+  776  cd linuxcnc/nc_files/icing
+  777  ls
+  778  ls -l cylinder*
+  779  ls -l cylinder*.orig
+  780  diff cylinder_test{1,2}.ngc.orig
+  781  ifconfig
+  782  diff cylinder_test{1,2}.ngc.orig
+  783  ls -a
+  784  cd .local
+  785  ls
+  786  cd share
+  787  ls
+  788  cd applications/
+  789  ls
+  790  more userapp-slic3r-1XWLTX.desktop 
+  791  cd ..
+  792  ls
+  793  cd ..
+  794  ls
+  795  cd ..
+  796  ls
+  797  ls -a
+  798  cd .Slic3r
+  799  ls
+  800  cd printer
+  801  ls
+  802  cd
+  803  find . -name bio2015atest0.ini
+  804  cd .Slic3r/print/
+  805  ls
+  806  diff bio2015*.ini
+  807  less bio2015atest0.ini
+  808  cd
+  809  cd linuxcnc/nc_files/icing
+  810  cd ../..
+  811  cd configs
+  812  ls
+  813  cd bio2
+  814  ls
+  815  history
+  816  linuxcnc bio7.ini
+  817  history
+  818  exit
+  819  history
+  820  cd Downloads
+  821  ls
+  822  cd Slic3r
+  823  ls
+  824  cd bin
+  825  ls
+  826  ./Slic3r
+  827  history
+  828  ./slic3r
+  829  cd linuxcnc/nc_files/
+  830  ls
+  831  cd icing
+  832  ls
+  833  cd linuxcnc/configs/bio2
+  834  ls
+  835  history
+  836  linuxcnc bio7.ini
+  837  cd linuxcnc/configs/
+  838  ls
+  839  cd bio2
+  840  ls
+  841  ls -l bio*.ini
+  842  vi bio7_a.ini
+  843  linuxcnc bio7_a.ini
+  844  vi bio7_a.ini
+  845  linuxcnc bio7_a.ini
+  846  linuxcnc bio8.ini
+  847  sudo apt-get update
+  848  sudo apt-get upgrade
+  849  linuxcnc bio8.ini
+  850  which linuxcnc
+  851  sudo apt-get update
+  852  sudo apt-get upgrade
+  853  cd linuxcnc/configs/bio2
+  854  vi bio2_a.ini
+  855  ls
+  856  vi bio7_a.ini
+  857  vi bio7_b.ini
+  858  mv bio7_b.ini bio8.ini
+  859  vi bio8.ini
+  860  exit
+  861  cd linuxcnc/configs/bio2
+  862  grep hal bio7_a.ini
+  863  vi bio7_a.hal
+  864  vi bio7_b.hal
+  865  mv bio7_b.hal bio8.hal
+  866  ls
+  867  more linuxcnc.var
+  868  ls
+  869  mv linuxcnc.var linuxcnc.var.bio7_a
+  870  more linuxcnc.var
+  871  grep MAX_ bio7_a.ini
+  872  exit
+  873  sudo apt-get update
+  874  sudo apt-get upgrade
+  875  sudo apt-get install linuxcnc linuxcnc-dev
+  876  cd linuxcnc/configs/bio2
+  877  ls
+  878  linuxcnc bio8.ini
+  879  cd linuxcnc/configs/bio2
+  880  vi bio8.ini
+  881  exit
+  882  cd linuxcnc/configs/bio2
+  883  vi bio8.hal
+  884  exit
+  885  history >hist.txt

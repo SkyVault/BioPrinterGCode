@@ -1,0 +1,14 @@
+M64 P1			Hold Part in tube
+M64 P0			Push out lowest part
+M65 P0			Retract Cylinder
+M65 P1			Allow next part to fall
+
+M64 p2			Open Grabber (to make sure its open)
+G01 Z0.0 F40
+M65 p2			Close Grabber
+G01 Z10.0 F40
+G01 Y4.0 F40
+G01 Z5.0 F40
+M64 p2			Open Grabber
+G01 Z10.0 Y0.0 F40
+G01 Z10.0 F40

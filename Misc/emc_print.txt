@@ -1,0 +1,29 @@
+RUN_IN_PLACE=no
+EMC2_DIR=
+EMC2_BIN_DIR=/usr/bin
+EMC2_TCL_DIR=/usr/share/emc/tcl
+EMC2_SCRIPT_DIR=
+EMC2_RTLIB_DIR=/usr/realtime-2.6.32-122-rtai/modules/emc2
+EMC2_CONFIG_DIR=
+EMC2_LANG_DIR=/usr/share/emc/tcl/msgs
+INIVAR=inivar
+HALCMD=halcmd
+EMC2_EMCSH=/usr/bin/wish8.5
+INIFILE=/home/engr-d510/emc2/configs/one-station-test/one-station-test.ini
+PARAMETER_FILE=emc.var
+EMCMOT=motmod
+EMCIO=io
+TASK=milltask
+HALUI=halui
+DISPLAY=axis
+NML_FILE=
+Starting EMC2 server program: emcsvr
+Loading Real Time OS, RTAPI, and HAL_LIB modules
+Starting EMC2 IO program: io
+Starting HAL User Interface program: halui
+Starting EMC2 TASK program: milltask
+Starting EMC2 DISPLAY program: axis
+Killing task emcsvr, PID=2299
+Killing task milltask, PID=2364
+Removing HAL_LIB, RTAPI, and Real Time OS modules
+Removing NML shared memory segments

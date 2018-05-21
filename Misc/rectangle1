@@ -1,0 +1,22 @@
+G21 (mm)
+G90 (Absolute distance mode)
+G55 (Machine Plane Coordinates) 
+
+	#ccws = .5(extruding)
+	#cws = 0.05 (back up)
+	#zIntial = 0.2 (Initial Height of Needle Tip)
+	#l = 4 (length)
+	#w = 3 (width)
+	#xStart = 0 (initial x)
+	#yStart = 0 (initial y) 
+	#delta = 0.5 (inter-row spacing)
+	#layerHeight = 0.2 (layer height)
+	#speed = 300
+	#layers = 6
+	#i = 0
+
+	G0 X[#xStart]
+
+0101 while [[#i*#delta] LE #w]
+	
+

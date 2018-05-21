@@ -1,0 +1,24 @@
+--- /etc/init/avahi-daemon.conf	2014-04-27 12:34:53.246087772 -0700
++++ /etc/init/avahi-daemon.conf.dpkg-new	2011-10-17 20:54:24.000000000 -0700
+@@ -5,8 +5,7 @@
+ 
+ description	"mDNS/DNS-SD daemon"
+ 
+-start on (never
+-	  and filesystem
++start on (filesystem
+ 	  and started dbus)
+ stop on stopping dbus
+ 
+@@ -14,9 +13,7 @@
+ respawn
+ 
+ pre-start script
+-    [ -d /sys/module/apparmor ]  || exit 0
+-    [ -x /sbin/apparmor_parser ] || exit 0
+-    /sbin/apparmor_parser -r -W /etc/apparmor.d/usr.sbin.avahi-daemon || true
++    /lib/init/apparmor-profile-load usr.sbin.avahi-daemon
+ end script
+ 
+ script
+

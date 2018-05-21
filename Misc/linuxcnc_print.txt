@@ -1,0 +1,26 @@
+RUN_IN_PLACE=no
+LINUXCNC_DIR=
+LINUXCNC_BIN_DIR=/usr/bin
+LINUXCNC_TCL_DIR=/usr/lib/tcltk/linuxcnc
+LINUXCNC_SCRIPT_DIR=
+LINUXCNC_RTLIB_DIR=/usr/realtime-3.4-9-rtai-686-pae/modules/linuxcnc
+LINUXCNC_CONFIG_DIR=
+LINUXCNC_LANG_DIR=/usr/share/linuxcnc/tcl/msgs
+INIVAR=inivar
+HALCMD=halcmd
+LINUXCNC_EMCSH=/usr/bin/wish8.5
+INIFILE=/home/engr-d510/linuxcnc/configs/bio2/bio9.ini
+PARAMETER_FILE=linuxcnc.var
+TASK=milltask
+HALUI=halui
+DISPLAY=axis
+Starting LinuxCNC server program: linuxcncsvr
+Loading Real Time OS, RTAPI, and HAL_LIB modules
+Starting LinuxCNC IO program: io
+Starting HAL User Interface program: halui
+Starting TASK program: milltask
+Starting DISPLAY program: axis
+Killing task linuxcncsvr, PID=13097
+Killing task milltask, PID=13150
+Removing HAL_LIB, RTAPI, and Real Time OS modules
+Removing NML shared memory segments
