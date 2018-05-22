@@ -10,15 +10,13 @@ M5 (Stop the spindle if it's left on)
 
 ; Variables for controlling the model
 
-; #<_speed> = 1100 (450)(300)
-#<_speed> = 1100 (450)(300)
-#<_mss> = 1  (1.28) (Margin Speed Scalar: the return speed on the margin)
-
-#<_ccws> = 0.0006 ;extrude: extruder motor counter clockwise from top (0.005 to 0.007) 
-#<_cws> = 0.005 (extruder back up, used before inter-layer pauses)
+#<_speed> = ? (1100)
+#<_mss> = ? (1.28) (Margin Speed Scalar: the return speed on the margin)
+#<_ccws> = ? (0.0006) ;extrude: extruder motor counter clockwise from top (0.005 to 0.007) 
+#<_cws> = ? (0.005) (extruder back up, used before inter-layer pauses)
 
 #<_corners> = 0 (1 extrude on corners, 0 no extrude on corners)
-#<_margin> = 8
+#<_margin> = ? (8)
 #<_lo> = 2 ; loop offset, used to prevent errors from turn-arounds at row ends	
 
 #<_pause> = .0001 (wait time, used at corners)
