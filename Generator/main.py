@@ -13,7 +13,8 @@ class Application(tk.Frame):
         FONT = 32
         self.content = content
         self.varmap = varmap
-
+        
+        # Create the export filepath entry
         self.filepathvar = tk.StringVar()
         self.filepathvar.set("temp.ngc")
         self.filepathentry = tk.Entry(self, textvariable=self.filepathvar)
@@ -22,6 +23,7 @@ class Application(tk.Frame):
 
         self.stringvars = {}
 
+        # Create the different inputs for the variables
         index = 0
         for key in varmap:
             name = varmap[key][0]
@@ -128,9 +130,9 @@ def run():
     # Start the application
     app = Application()
     app.createWidgets(varmap, content)
-    
     app.master.title('Generator')
     app.mainloop()
 
+# Entry point
 if __name__=='__main__':
     run()
