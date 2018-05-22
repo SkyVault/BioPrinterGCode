@@ -87,8 +87,8 @@ def run():
         return index
 
     numbers = 0
+    line_number = 0
     for line in lines:
-
         # If we find the variable 
         if line.startswith('#') and line.find("?") >= 0:
             index = 1
@@ -123,6 +123,8 @@ def run():
             
             varmap[numbers] = (name, the_default)
             numbers += 1
+        lines[line_number] = line
+        line_number += 1
 
     # Merge all of the changed lines into the content
     content = reduce(lambda a, b: a+b, lines)
