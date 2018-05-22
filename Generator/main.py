@@ -71,11 +71,14 @@ def run():
         content = f.read()
 
     # Get the variables to change
+
+    # Moves the index until the first non whitespace character
     def skipWhitespace(line, index):
         while index < len(line) and line[index] in "\n\t\r ":
             index += 1
         return index
     
+    # Moves the index to the first non whitespace character
     def skipTillWhitespace(line, index):
         while index < len(line) and line[index] not in "\n\t\r ":
             index += 1
@@ -83,21 +86,27 @@ def run():
 
     numbers = 0
     for line in lines:
+
+        # If we find the variable 
         if line.startswith('#') and line.find("?") >= 0:
-            print("Got one: " + line)
             index = 1
             end = index
             assert(line[index] == '<')
+
+            # Extract the variables name
             index += 1
             while end < len(line) and line[end] is not '>':
                 end+=1
 
             name = (line[index:end])
+
+            # Change the question mark to the {N} syntax
             curly = line.find("?")
             part_1 = line[:curly]
             part_2 = line[curly+1:]
             line = part_1 + "{" + str(numbers) + "}" + part_2
             
+            # Find the default value if it exists
             index = line.find("}") + 1
             index = skipWhitespace(line, end + 1)
             end = curly
@@ -113,6 +122,7 @@ def run():
             varmap[numbers] = (name, the_default)
             numbers += 1
 
+    # Merge all of the changed lines into the content
     content = reduce(lambda a, b: a+b, lines)
 
     # Start the application
