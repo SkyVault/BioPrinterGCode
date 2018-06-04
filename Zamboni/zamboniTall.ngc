@@ -2,6 +2,8 @@
 ;Toggle extrusion while keeping smooth movement
 ;Modify to se x0 and xf to arbitrary functions of step or another parameter
 
+; Hello World
+
 G21 (mm)
 G90 (Absolute distance mode)
 G55 (Machine Plane Coordinates) 

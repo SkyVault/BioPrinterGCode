@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-import tkinter as tk
+
+import Tkinter as tk
 
 from functools import *
 from ntpath import basename
@@ -73,8 +74,7 @@ class Application(tk.Frame):
 
         num = int(num)
         num += val
-        num = str(num)
-        self.filepathoutvar.set(f"{name}_{num}.{ext}")
+        self.filepathoutvar.set("{}_{}.{}".format(name, num, ext))
 
     def generatePart(self):
         values = []
