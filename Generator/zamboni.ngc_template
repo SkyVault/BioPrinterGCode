@@ -16,7 +16,7 @@ M5 (Stop the spindle if it's left on)
 #<_cws> = ? (0.005) (extruder back up, used before inter-layer pauses)
 
 #<_corners> = 0 (1 extrude on corners, 0 no extrude on corners)
-#<_margin> = 8
+#<_margin> = ? (8)
 #<_lo> = 2 ; loop offset, used to prevent errors from turn-arounds at row ends	
 
 #<_pause> = .0001 (wait time, used at corners)
