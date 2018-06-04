@@ -2,7 +2,7 @@
 import tkinter as tk
 
 from functools import *
-
+from ntpath import basename
 
 class Application(tk.Frame):
     def __init__(self, master=None):
@@ -15,8 +15,14 @@ class Application(tk.Frame):
         self.varmap = varmap
         
         # Create the export filepath entry
+        self.filepathoutvar = tk.StringVar()
+        self.filepathoutvar.set("zambonie_1.ngc")
+        self.filepathoutentry = tk.Entry(self, textvariable=self.filepathoutvar)
+        self.filepathoutentry.grid(row=0, column=1)
+        self.filepathoutentry.config(font=("Courier", FONT))
+
         self.filepathvar = tk.StringVar()
-        self.filepathvar.set("temp.ngc")
+        self.filepathvar.set("zambonie.ngc_template")
         self.filepathentry = tk.Entry(self, textvariable=self.filepathvar)
         self.filepathentry.grid(row=0, column=0)
         self.filepathentry.config(font=("Courier", FONT))
@@ -51,13 +57,32 @@ class Application(tk.Frame):
         self.quitButton.grid(row=index, column=1)
         self.quitButton.config(font=("Courier", FONT))
 
+        self.decButton = tk.Button(self, text="-", command= lambda: self.addFileName(-1))
+        self.decButton.grid(row=index, column=2)
+        self.decButton.config(font=("Courier", FONT))
+
+        self.incButton = tk.Button(self, text="+", command= lambda: self.addFileName(1))
+        self.incButton.grid(row=index, column=3)
+        self.incButton.config(font=("Courier", FONT))
+
+    def addFileName(self, val):
+        path = self.filepathoutvar.get()
+        name, ext = basename(path).split('.')
+
+        name, num = name.split('_')
+
+        num = int(num)
+        num += val
+        num = str(num)
+        self.filepathoutvar.set(f"{name}_{num}.{ext}")
+
     def generatePart(self):
         values = []
         for val in self.stringvars:
             values.append(self.stringvars[val].get())
 
         newcontent = self.content.format(*values)
-        with open(self.filepathvar.get(), "w") as f:
+        with open(self.filepathoutvar.get(), "w") as f:
             f.write(newcontent)
         
 
