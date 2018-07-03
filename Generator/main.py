@@ -32,13 +32,16 @@ def Save():
     with open(SAVE, 'wb') as f:
         pickle.dump(ToSave, f, protocol=pickle.HIGHEST_PROTOCOL)
 
-def makeFilepathInput(parent, path_change, default_path="C:/"):
+def makeFilepathInput(parent, path_change, label="DEFAULT", default_path="C:/"):
     frame = Frame(parent)
+
+    label = tk.Label(frame, text=label)
+    label.pack(side="top")
 
     outvar = tk.StringVar()
     outvar.set(default_path)
     entry = tk.Entry(frame, textvariable=outvar)
-    entry.config(font=("Courier", FONT / 2))
+    entry.config(font=("Courier", FONT))
     entry.pack(side="left", expand=1)
 
     def open_dialog():
@@ -47,7 +50,7 @@ def makeFilepathInput(parent, path_change, default_path="C:/"):
             path_change(result)
 
     open_dialog = tk.Button(frame, text="...", command=open_dialog)
-    open_dialog.config(font=("Courier", FONT))
+    open_dialog.config(font=("Courier", FONT / 2))
     open_dialog.pack(side="left")
 
     return (frame, outvar)
@@ -71,10 +74,10 @@ class Application(tk.Frame):
             Save()
             self.filepathvar.set(newpath)
 
-        self.filepathoutentry, self.filepathoutvar = makeFilepathInput(self, outfile_pathchange, default_path=ToSave["outfile"])
+        self.filepathoutentry, self.filepathoutvar = makeFilepathInput(self, outfile_pathchange, default_path=ToSave["outfile"], label="output file")
         self.filepathoutentry.grid(row=0, column=1)
 
-        self.filepathentry, self.filepathvar = makeFilepathInput(self, templatefile_pathchange,  default_path=ToSave["template"])
+        self.filepathentry, self.filepathvar = makeFilepathInput(self, templatefile_pathchange,  default_path=ToSave["template"], label="template file")
         self.filepathentry.grid(row=0, column=0)
 
         self.stringvars = {}
