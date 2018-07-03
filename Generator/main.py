@@ -9,7 +9,7 @@ from functools import *
 from ntpath import basename
 import os.path
 
-FONT = 32
+FONT = 16
 SAVE = "save"
 
 ToSave = {}
@@ -47,7 +47,7 @@ def makeFilepathInput(parent, path_change, default_path="C:/"):
             path_change(result)
 
     open_dialog = tk.Button(frame, text="...", command=open_dialog)
-    open_dialog.config(font=("Courier", FONT / 2))
+    open_dialog.config(font=("Courier", FONT))
     open_dialog.pack(side="left")
 
     return (frame, outvar)
