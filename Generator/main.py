@@ -59,6 +59,8 @@ class Application(tk.Frame):
     def __init__(self, master=None):
         tk.Frame.__init__(self, master)
         self.grid()
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=1)
 
     def createWidgets(self, varmap, content):
         self.content = content
@@ -73,6 +75,9 @@ class Application(tk.Frame):
             ToSave["template"] = newpath
             Save()
             self.filepathvar.set(newpath)
+            for v in self.variable_fields:
+                v.pack_forget()
+            self.variable_fields = []
 
         self.filepathoutentry, self.filepathoutvar = makeFilepathInput(self, outfile_pathchange, default_path=ToSave["outfile"], label="output file")
         self.filepathoutentry.grid(row=0, column=1)
@@ -98,39 +103,37 @@ class Application(tk.Frame):
         self.canvas_frame.bind("<Configure>", t)
 
         # Create the different inputs for the variables
-        index = 0
-        self.variable_fields = []
-        for key in varmap:
-            name = varmap[key][0]
-            default = varmap[key][1]
+        def generateInputFields():
+            self.variable_fields = []
+            for key in varmap:
+                name = varmap[key][0]
+                default = varmap[key][1]
 
-            # sub = Frame(self.input_fields_frame)
-            sub = Frame(self.canvas_frame)
+                # sub = Frame(self.input_fields_frame)
+                sub = Frame(self.canvas_frame)
 
-            v = tk.StringVar()
-            v.set(default)
-            e = tk.Entry(sub, textvariable=v)
-            e.config(font=("Courier", FONT))
+                v = tk.StringVar()
+                v.set(default)
+                e = tk.Entry(sub, textvariable=v)
+                e.config(font=("Courier", FONT))
 
-            l = tk.Label(sub, text=name[1:])
-            l.config(font=("Courier", FONT))
-            self.stringvars[key] = v
+                l = tk.Label(sub, text=name[1:])
+                l.config(font=("Courier", FONT))
+                self.stringvars[key] = v
 
-            e.pack(side="right", fill="both")
-            l.pack(side="right", fill="both")
-            sub.pack(side="top", anchor="w", fill="both")
-            self.variable_fields.append(sub)
+                e.pack(side="right", fill="both")
+                l.pack(side="right", fill="both")
+                sub.pack(side="top", anchor="w", fill="both")
+                self.variable_fields.append(sub)
 
-            index += 1
-
-        index += 1
+        generateInputFields()
 
         self.generateButton = tk.Button(self, text="Generate", command=self.generatePart)
-        self.generateButton.grid(row=index, column=0) 
+        self.generateButton.grid(row=2, column=0) 
         self.generateButton.config(font=("Courier", FONT))
 
         self.btn_frame = Frame(self)
-        self.btn_frame.grid(column=1, row=index)
+        self.btn_frame.grid(column=1, row=2)
 
 
         self.decButton = tk.Button(self.btn_frame, text="-", command= lambda: self.addFileName(-1))
