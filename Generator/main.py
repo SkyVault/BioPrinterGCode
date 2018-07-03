@@ -2,6 +2,7 @@
 
 import pickle
 import Tkinter as tk
+import tkFileDialog
 from Tkinter import LEFT, Grid, Frame
 
 from functools import *
@@ -13,6 +14,7 @@ SAVE = "save"
 
 ToSave = {}
 
+# Loading the save file
 if os.path.isfile(SAVE):
     with open(SAVE, 'rb') as f:
         ToSave = pickle.load(f)
@@ -30,66 +32,21 @@ def Save():
     with open(SAVE, 'wb') as f:
         pickle.dump(ToSave, f, protocol=pickle.HIGHEST_PROTOCOL)
 
-class FrameGroup(tk.Frame):
-    def __init__(self, parent):
-        tk.Frame.__init__(self, parent)
-        self.all_instances = []
-        self.counter = 0
-
-    def Add(self):
-        self.counter += 1
-        name = "Frame %s" % self.counter 
-        subframe = Subframe(self, name=name)
-        subframe.pack(side="left", fill="y")
-        self.all_instances.append(subframe)
-
-    def Remove(self, instance):
-        # don't allow the user to destroy the last item
-        if len(self.all_instances) > 1:
-            index = self.all_instances.index(instance)
-            subframe = self.all_instances.pop(index)
-            subframe.destroy()
-
-    def HowMany(self):
-        return len(self.all_instances)
-
-    def ShowMe(self):
-        for instance in self.all_instances:
-            print(instance.get())
-
-
-class Subframe(tk.Frame):
-    def __init__(self, parent, name):
-        tk.Frame.__init__(self, parent)
-        self.parent = parent
-        self.e1 = tk.Entry(self)
-        self.e2 = tk.Entry(self)
-        self.e3 = tk.Entry(self)
-        label = tk.Label(self, text=name, anchor="center")
-        add_button = tk.Button(self, text="Add", command=self.parent.Add)
-        remove_button = tk.Button(self, text="Remove", command=lambda: self.parent.Remove(self))
-
-        label.pack(side="top", fill="x")
-        self.e1.pack(side="top", fill="x")
-        self.e2.pack(side="top", fill="x")
-        self.e3.pack(side="top", fill="x")
-        add_button.pack(side="top")
-        remove_button.pack(side="top")
-
-
-def makeFilepathInput(parent, default_path="C:/"):
+def makeFilepathInput(parent, path_change, default_path="C:/"):
     frame = Frame(parent)
 
     outvar = tk.StringVar()
     outvar.set(default_path)
     entry = tk.Entry(frame, textvariable=outvar)
-    entry.config(font=("Courier", FONT))
-    entry.pack(side="left")
+    entry.config(font=("Courier", FONT / 2))
+    entry.pack(side="left", fill="x")
 
-    def test():
-        print("Hello")
+    def open_dialog():
+        result = tkFileDialog.askopenfilename(initialdir="", title="Select file", filetypes=(("GCode files", "*.ngc"), ("all files", "*.*")))
+        if (result != ""):
+            path_change(result)
 
-    open_dialog = tk.Button(frame, text="...", command=test)
+    open_dialog = tk.Button(frame, text="...", command=open_dialog)
     open_dialog.config(font=("Courier", FONT / 2))
     open_dialog.pack(side="left")
 
@@ -111,13 +68,27 @@ class Application(tk.Frame):
         # self.filepathoutentry.grid(row=0, column=1)
         # self.filepathoutentry.config(font=("Courier", FONT))
 
-        self.filepathoutentry, self.filepathoutvar = makeFilepathInput(self, default_path=ToSave["outfile"])
+        def outfile_pathchange(newpath):
+            ToSave["outfile"] = newpath
+            Save()
+            self.filepathoutvar.set(newpath)
+
+        def templatefile_pathchange(newpath):
+            ToSave["template"] = newpath
+            Save()
+            self.filepathvar.set(newpath)
+
+        self.filepathoutentry, self.filepathoutvar = makeFilepathInput(self, outfile_pathchange, default_path=ToSave["outfile"])
         self.filepathoutentry.grid(row=0, column=1)
 
-        self.filepathentry, self.filepathvar = makeFilepathInput(self, default_path=ToSave["template"])
+        self.filepathentry, self.filepathvar = makeFilepathInput(self, templatefile_pathchange,  default_path=ToSave["template"])
         self.filepathentry.grid(row=0, column=0)
 
         self.stringvars = {}
+
+        self.input_fields_frame = Frame(self)
+        self.input_fields_frame.grid(row=1, column=0, columnspan=2)
+        self.input_fields_frame.grid_columnconfigure(0, weight=1)
 
         # Create the different inputs for the variables
         index = 0
@@ -125,17 +96,21 @@ class Application(tk.Frame):
             name = varmap[key][0]
             default = varmap[key][1]
 
+            sub = Frame(self.input_fields_frame)
+
             v = tk.StringVar()
             v.set(default)
-            e = tk.Entry(self, textvariable=v)
+            e = tk.Entry(sub, textvariable=v)
             e.config(font=("Courier", FONT))
 
-            l = tk.Label(self, text=name[1:])
+            l = tk.Label(sub, text=name[1:])
             l.config(font=("Courier", FONT))
-            l.grid(row=index+1, column=0)
-
-            e.grid(row=index+1, column=1)
             self.stringvars[key] = v
+
+            e.pack(side="right", fill="both")
+            l.pack(side="right", fill="both")
+            sub.pack(side="top", anchor="w", fill="both")
+
             index += 1
 
         index += 1
@@ -172,7 +147,9 @@ class Application(tk.Frame):
         ToSave["outfile"] = self.filepathoutvar.get()
         Save()
 
+
     def generatePart(self):
+        Save()
         values = []
         for val in self.stringvars:
             values.append(self.stringvars[val].get())
