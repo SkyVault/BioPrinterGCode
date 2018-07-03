@@ -64,86 +64,85 @@ class Application(tk.Frame):
         self.content = content
         self.varmap = varmap
 
-        def outfile_pathchange(newpath):
-            ToSave["outfile"] = newpath
-            Save()
-            self.filepathoutvar.set(newpath)
+    def outfile_pathchange(newpath):
+        ToSave["outfile"] = newpath
+        Save()
+        self.filepathoutvar.set(newpath)
 
-        def templatefile_pathchange(newpath):
-            ToSave["template"] = newpath
-            Save()
-            self.filepathvar.set(newpath)
+    def templatefile_pathchange(newpath):
+        ToSave["template"] = newpath
+        Save()
+        self.filepathvar.set(newpath)
 
-        self.filepathoutentry, self.filepathoutvar = makeFilepathInput(self, outfile_pathchange, default_path=ToSave["outfile"], label="output file")
-        self.filepathoutentry.grid(row=0, column=1)
+    self.filepathoutentry, self.filepathoutvar = makeFilepathInput(self, outfile_pathchange, default_path=ToSave["outfile"], label="output file")
+    self.filepathoutentry.grid(row=0, column=1)
 
-        self.filepathentry, self.filepathvar = makeFilepathInput(self, templatefile_pathchange,  default_path=ToSave["template"], label="template file")
-        self.filepathentry.grid(row=0, column=0)
+    self.filepathentry, self.filepathvar = makeFilepathInput(self, templatefile_pathchange,  default_path=ToSave["template"], label="template file")
+    self.filepathentry.grid(row=0, column=0)
 
-        self.stringvars = {}
+    self.stringvars = {}
 
-        self.input_fields_frame = Frame(self)
-        self.input_fields_frame.grid(row=1, column=0, columnspan=2)
+    self.input_fields_frame = Frame(self)
+    self.input_fields_frame.grid(row=1, column=0, columnspan=2)
 
-        canvas = tk.Canvas(self.input_fields_frame)
+    canvas = tk.Canvas(self.input_fields_frame)
 
-        self.canvas_frame = Frame(canvas)
-        vbar = tk.Scrollbar(self.input_fields_frame, orient="vertical", command=canvas.yview)
-        canvas.configure(yscrollcommand=vbar.set)
-        vbar.pack(side="left", fill="y")
-        canvas.create_window((0,0), window=self.canvas_frame, anchor="nw")
-        canvas.pack(side="left", fill=BOTH)
+    self.canvas_frame = Frame(canvas)
+    vbar = tk.Scrollbar(self.input_fields_frame, orient="vertical", command=canvas.yview)
+    canvas.configure(yscrollcommand=vbar.set)
+    vbar.pack(side="left", fill="y")
+    canvas.create_window((0,0), window=self.canvas_frame, anchor="nw")
+    canvas.pack(side="left", fill=BOTH)
 
-        def t(event): pass
-        self.canvas_frame.bind("<Configure>", t)
+    self.canvas_frame.bind("<Configure>", lambda: pass)
 
-        # Create the different inputs for the variables
-        index = 0
-        self.variable_fields = []
-        for key in varmap:
-            name = varmap[key][0]
-            default = varmap[key][1]
+    # Create the different inputs for the variables
+    index = 0
+    self.variable_fields = []
+    for key in varmap:
+	name = varmap[key][0]
+	default = varmap[key][1]
 
-            # sub = Frame(self.input_fields_frame)
-            sub = Frame(self.canvas_frame)
+	# sub = Frame(self.input_fields_frame)
+	sub = Frame(self.canvas_frame)
 
-            v = tk.StringVar()
-            v.set(default)
-            e = tk.Entry(sub, textvariable=v)
-            e.config(font=("Courier", FONT))
+	v = tk.StringVar()
+	v.set(default)
+	e = tk.Entry(sub, textvariable=v)
+	e.config(font=("Courier", FONT))
 
-            l = tk.Label(sub, text=name[1:])
-            l.config(font=("Courier", FONT))
-            self.stringvars[key] = v
+	l = tk.Label(sub, text=name[1:])
+	l.config(font=("Courier", FONT))
+	self.stringvars[key] = v
 
-            e.pack(side="right", fill="both")
-            l.pack(side="right", fill="both")
-            sub.pack(side="top", anchor="w", fill="both")
-            self.variable_fields.append(sub)
+	e.pack(side="right", fill="both")
+	l.pack(side="right", fill="both")
+	sub.pack(side="top", anchor="w", fill="both")
+	self.variable_fields.append(sub)
 
-            index += 1
+	index += 1
 
-        index += 1
+    index += 1
 
-        self.generateButton = tk.Button(self, text="Generate", command=self.generatePart)
-        self.generateButton.grid(row=index, column=0) 
-        self.generateButton.config(font=("Courier", FONT))
+    self.generateButton = tk.Button(self, text="Generate", command=self.generatePart)
+    self.generateButton.grid(row=index, column=0) 
+    self.generateButton.config(font=("Courier", FONT))
 
-        self.btn_frame = Frame(self)
-        self.btn_frame.grid(column=1, row=index)
+    self.btn_frame = Frame(self)
+    self.btn_frame.grid(column=1, row=index)
 
 
-        self.decButton = tk.Button(self.btn_frame, text="-", command= lambda: self.addFileName(-1))
-        self.decButton.config(font=("Courier", FONT))
-        self.decButton.pack(side="left")
+    self.decButton = tk.Button(self.btn_frame, text="-", command= lambda: self.addFileName(-1))
+    self.decButton.config(font=("Courier", FONT))
+    self.decButton.pack(side="left")
 
-        self.incButton = tk.Button(self.btn_frame, text="+", command= lambda: self.addFileName(1))
-        self.incButton.config(font=("Courier", FONT))
-        self.incButton.pack(side="left")
+    self.incButton = tk.Button(self.btn_frame, text="+", command= lambda: self.addFileName(1))
+    self.incButton.config(font=("Courier", FONT))
+    self.incButton.pack(side="left")
 
-        self.quitButton = tk.Button(self.btn_frame, text='Quit', command=self.quit)
-        self.quitButton.config(font=("Courier", FONT))
-        self.quitButton.pack(side="left")
+    self.quitButton = tk.Button(self.btn_frame, text='Quit', command=self.quit)
+    self.quitButton.config(font=("Courier", FONT))
+    self.quitButton.pack(side="left")
 
 
     def addFileName(self, val):
@@ -239,13 +238,13 @@ def extractVariables():
     return (varmap, content)
 
 def run():
-        varmap, content = extractVariables()
+	varmap, content = extractVariables()
 
-        # Start the application
-        app = Application()
-        app.createWidgets(varmap, content)
-        app.master.title('Generator')
-        app.mainloop()
+	# Start the application
+	app = Application()
+	app.createWidgets(varmap, content)
+	app.master.title('Generator')
+	app.mainloop()
 
 # Entry point
 if __name__=='__main__':
