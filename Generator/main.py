@@ -135,13 +135,24 @@ class Application(tk.Frame):
 
         generateInputFields()
 
-        self.generateButton = tk.Button(self, text="Generate", command=self.generatePart)
-        self.generateButton.grid(row=2, column=0) 
+        self.lbtn_frame = Frame(self)
+        self.lbtn_frame.grid(row=2, column=0)
+
+        self.generateButton = tk.Button(self.lbtn_frame, text="Generate", command=self.generatePart)
         self.generateButton.config(font=("Courier", FONT))
+        self.generateButton.pack(side="left")
+        
+        def restart():
+            # Restart
+            python = sys.executable
+            os.execl(python, python, * sys.argv)
+
+        resetButton = tk.Button(self.lbtn_frame, text="Default", command=restart)
+        resetButton.config(font=("Courier", FONT))
+        resetButton.pack(side="left")
 
         self.btn_frame = Frame(self)
         self.btn_frame.grid(column=1, row=2)
-
 
         self.decButton = tk.Button(self.btn_frame, text="-", command= lambda: self.addFileName(-1))
         self.decButton.config(font=("Courier", FONT))
