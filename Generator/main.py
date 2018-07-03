@@ -3,11 +3,14 @@
 import pickle
 import Tkinter as tk
 import tkFileDialog
+import os.path
+import os
+import sys
+
 from Tkinter import LEFT, Grid, Frame, Y, RIGHT, BOTH
 
 from functools import *
 from ntpath import basename
-import os.path
 
 FONT = 16
 SAVE = "save"
@@ -78,6 +81,10 @@ class Application(tk.Frame):
             for v in self.variable_fields:
                 v.pack_forget()
             self.variable_fields = []
+            
+            # Restart
+            python = sys.executable
+            os.execl(python, python, * sys.argv)
 
         self.filepathoutentry, self.filepathoutvar = makeFilepathInput(self, outfile_pathchange, default_path=ToSave["outfile"], label="output file")
         self.filepathoutentry.grid(row=0, column=1)
