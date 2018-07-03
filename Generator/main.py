@@ -39,7 +39,7 @@ def makeFilepathInput(parent, path_change, default_path="C:/"):
     outvar.set(default_path)
     entry = tk.Entry(frame, textvariable=outvar)
     entry.config(font=("Courier", FONT / 2))
-    entry.pack(side="left", fill="x")
+    entry.pack(side="left", expand=1)
 
     def open_dialog():
         result = tkFileDialog.askopenfilename(initialdir="", title="Select file", filetypes=(("GCode files", "*.ngc"), ("all files", "*.*")))
