@@ -3,6 +3,7 @@
 import pickle
 import Tkinter as tk
 import tkFileDialog
+import tkMessageBox
 import os.path
 import os
 import sys
@@ -16,6 +17,10 @@ FONT = 16
 SAVE = "save"
 
 ToSave = {}
+
+def Confirm(msg):
+    result = tkMessageBox.askquestion("Reset to default values?", "Are You Sure?", icon='warning')
+    return result == "yes"
 
 # Loading the save file
 if os.path.isfile(SAVE):
@@ -143,6 +148,7 @@ class Application(tk.Frame):
         self.generateButton.pack(side="left")
         
         def restart():
+            if not Confirm(""): return
             # Restart
             python = sys.executable
             os.execl(python, python, * sys.argv)
