@@ -3,7 +3,7 @@
 import pickle
 import Tkinter as tk
 import tkFileDialog
-from Tkinter import LEFT, Grid, Frame
+from Tkinter import LEFT, Grid, Frame, Y, RIGHT, BOTH
 
 from functools import *
 from ntpath import basename
@@ -60,13 +60,6 @@ class Application(tk.Frame):
     def createWidgets(self, varmap, content):
         self.content = content
         self.varmap = varmap
-        
-        # Create the export filepath entry
-        # self.filepathoutvar = tk.StringVar()
-        # self.filepathoutvar.set("zambonie_1.ngc")
-        # self.filepathoutentry = tk.Entry(self, textvariable=self.filepathoutvar)
-        # self.filepathoutentry.grid(row=0, column=1)
-        # self.filepathoutentry.config(font=("Courier", FONT))
 
         def outfile_pathchange(newpath):
             ToSave["outfile"] = newpath
@@ -88,7 +81,22 @@ class Application(tk.Frame):
 
         self.input_fields_frame = Frame(self)
         self.input_fields_frame.grid(row=1, column=0, columnspan=2)
-        self.input_fields_frame.grid_columnconfigure(0, weight=1)
+
+	# Canvas for scrolling
+	canvas = tk.Canvas(self.input_fields_frame)
+
+	def myfunction(event):
+	    pass
+	    # canvas.configure(scrollregion=canvas.bbox("all"),width=200,height=200)	
+
+	self.canvas_frame = Frame(canvas)
+	vbar = tk.Scrollbar(self.input_fields_frame, orient="vertical", command=canvas.yview)
+	canvas.configure(yscrollcommand=vbar.set)
+	vbar.pack(side="left", fill="y")
+	canvas.create_window((0,0), window=self.canvas_frame, anchor="nw")
+	canvas.pack(side="left", fill=BOTH)
+
+	self.canvas_frame.bind("<Configure>", myfunction)
 
         # Create the different inputs for the variables
         index = 0
@@ -96,7 +104,8 @@ class Application(tk.Frame):
             name = varmap[key][0]
             default = varmap[key][1]
 
-            sub = Frame(self.input_fields_frame)
+            # sub = Frame(self.input_fields_frame)
+            sub = Frame(self.canvas_frame)
 
             v = tk.StringVar()
             v.set(default)
@@ -114,7 +123,7 @@ class Application(tk.Frame):
             index += 1
 
         index += 1
-
+	
         self.generateButton = tk.Button(self, text="Generate", command=self.generatePart)
         self.generateButton.grid(row=index, column=0) 
         self.generateButton.config(font=("Courier", FONT))
