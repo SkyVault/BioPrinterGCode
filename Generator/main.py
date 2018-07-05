@@ -95,6 +95,20 @@ class Application(tk.Frame):
             python = sys.executable
             os.execl(python, python, * sys.argv)
 
+        #########################
+        # Creating the menu bar #
+        #########################
+        self.menubar = tk.Menu(self)
+        self.master.config(menu=self.menubar)
+
+        _file = tk.Menu(self.menubar)
+        _file.add_command(label="Exit", command=exit)
+        self.menubar.add_cascade(label="File", menu=_file)
+
+        _help = tk.Menu(self.menubar)
+        _help.add_command(label="Show Documentation", command=exit)
+        self.menubar.add_cascade(label="Help", menu=_help)
+
         self.filepathoutentry, self.filepathoutvar = makeFilepathInput(self, outfile_pathchange, default_path=ToSave["outfile"], label="output file")
         self.filepathoutentry.grid(row=0, column=1)
 
