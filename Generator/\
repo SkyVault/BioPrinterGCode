@@ -263,7 +263,6 @@ def extractVariables():
             index = skipWhitespace(line, end + 1)
             end = curly
             the_default = 0
-            the_comment = ""
             
             index = line.find("(")
             if index >= 0 and line[index] is '(':
@@ -272,19 +271,11 @@ def extractVariables():
                     end+=1
                 the_default = line[index:end]
 
-                index = end + 1
                 index = skipWhitespace(line, index)
                 if index is not len(line):
-                    if line[index] is not '(':
-                        print("Malformed documentation comment for {}".format(name))
-                    else:
-                        index += 1
-                        end = index
-                        while end < len(line) and line[end] is not ')':
-                            end+=1
-                        the_comment = line[index:end]
-        
-            varmap[numbers] = (name, the_default, the_comment)
+                    print("Found documentation for {}: {} < {}".format(name, index, len(line)))
+            
+            varmap[numbers] = (name, the_default)
             numbers += 1
 
         lines[line_number] = line
