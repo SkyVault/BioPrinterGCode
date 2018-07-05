@@ -9,7 +9,7 @@ import os
 import sys
 import csv
 
-from scrollable_frame import *
+from tkinter_utils import *
 
 from Tkinter import LEFT, Grid, Frame, Y, RIGHT, BOTH
 
@@ -111,9 +111,13 @@ class Application(tk.Frame):
             for key in varmap:
                 name = varmap[key][0]
                 default = varmap[key][1]
+                docstring = varmap[key][2]
 
                 # sub = Frame(self.input_fields_frame)
                 sub = Frame(self.input_fields_frame.interior)
+                
+                if docstring is not "":
+                    CreateToolTip(sub, docstring)
 
                 v = tk.StringVar()
                 v.set(default)
