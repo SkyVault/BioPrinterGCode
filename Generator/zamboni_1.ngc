@@ -10,7 +10,7 @@ M5 (Stop the spindle if it's left on)
 
 ; Variables for controlling the model
 
-#<_speed> = 1500 (1100)
+#<_speed> = 1100 (1100)
 #<_mss> = 1.28 (1.28) (Margin Speed Scalar: the return speed on the margin)
 #<_ccws> = 0.0006 (0.0006) ;extrude: extruder motor counter clockwise from top (0.005 to 0.007) 
 #<_cws> = 0.005 (0.005) (extruder back up, used before inter-layer pauses)
@@ -44,7 +44,7 @@ M5 (Stop the spindle if it's left on)
 #<_step> = 0 (0)
 
 ;counter maximums
-#<_layers> = 20 (20)
+#<_layers> = 30 (20)
 
 #<_ystepf> = FIX[#<_l>/#<_delta>](_____-[#<_l> MOD #<_delta>]/#<_delta>])
 #<_xstepf> = FIX[#<_width>/#<_delta>]([_____-[#<_width> MOD #<_delta>]/#<_delta>])
