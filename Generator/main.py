@@ -131,7 +131,10 @@ class Application(tk.Frame):
                 e = tk.Entry(sub, textvariable=v)
                 e.config(font=("Courier", FONT))
 
-                l = tk.Label(sub, text=name[1:])
+                new_name = ' '.join(name[1:].split('_'))
+                new_name = new_name.title()
+
+                l = tk.Label(sub, text=new_name)
                 l.config(font=("Courier", FONT))
                 self.stringvars[key] = v
 
