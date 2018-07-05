@@ -7,6 +7,7 @@ import tkMessageBox
 import os.path
 import os
 import sys
+import csv
 
 from Tkinter import LEFT, Grid, Frame, Y, RIGHT, BOTH
 
@@ -29,7 +30,8 @@ if os.path.isfile(SAVE):
 else:
     ToSave = {
         "outfile": "zamboni_1.ngc",
-        "template": "zamboni.ngc_template"
+        "template": "zamboni.ngc_template",
+        "csv": "log.csv",
     }
     with open(SAVE, 'wb') as f:
         pickle.dump(ToSave, f, protocol=pickle.HIGHEST_PROTOCOL)
@@ -195,6 +197,14 @@ class Application(tk.Frame):
         newcontent = self.content.format(*values)
         with open(self.filepathoutvar.get(), "w") as f:
             f.write(newcontent)
+        
+        print(values)
+
+        # Log to csv file
+        with open(ToSave["csv"], "a") as f:
+            writer = csv.writer(f)
+            writer.writerow(values)
+             
 
 def extractVariables():
     lines = ""
