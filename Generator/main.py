@@ -198,13 +198,22 @@ class Application(tk.Frame):
         with open(self.filepathoutvar.get(), "w") as f:
             f.write(newcontent)
         
-        print(values)
+        names = [self.varmap[_n][0] for _n in self.varmap]
+
+        the_list = []
+        with open(ToSave["csv"], 'rb') as f:
+            reader = csv.reader(f)
+            the_list = list(reader) 
+    
+        if len(the_list) == 0 or the_list[0][0] != names[0]:
+            the_list.insert(0, names)            
 
         # Log to csv file
-        with open(ToSave["csv"], "a") as f:
+        with open(ToSave["csv"], "wb") as f:
             writer = csv.writer(f)
+            for row in the_list:
+                writer.writerow(row)
             writer.writerow(values)
-             
 
 def extractVariables():
     lines = ""
