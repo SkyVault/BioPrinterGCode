@@ -11,7 +11,7 @@ M5 (Stop the spindle if it's left on)
 
 ; Variables for controlling the model
 
-#<_printing_speed> = 12000 (1100) (Speed of the print as it moves along the straight line)
+#<_printing_speed> = 1200 (1100) (Speed of the print as it moves along the straight line)
 #<_margin_speed_scalar> = 1.28 (1.28) (Margin Speed Scalar: the return speed on the margin)
 
 #<_counter_clockwise_speed> = 0.0006 (0.0006) (extrude: extruder motor counter clockwise from top 0.005 to 0.007)
