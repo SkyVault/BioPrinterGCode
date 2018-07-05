@@ -9,6 +9,8 @@ import os
 import sys
 import csv
 
+from scrollable_frame import *
+
 from Tkinter import LEFT, Grid, Frame, Y, RIGHT, BOTH
 
 from functools import *
@@ -101,22 +103,9 @@ class Application(tk.Frame):
 
         self.stringvars = {}
 
-        self.input_fields_frame = Frame(self)
+        self.input_fields_frame = VerticalScrolledFrame(self)
         self.input_fields_frame.grid(row=1, column=0, columnspan=2)
 
-        canvas = tk.Canvas(self.input_fields_frame)
-
-        self.canvas_frame = Frame(canvas)
-        vbar = tk.Scrollbar(self.input_fields_frame, orient="vertical", command=canvas.yview)
-        canvas.configure(yscrollcommand=vbar.set)
-        vbar.pack(side="left", fill="y")
-        canvas.create_window((0,0), window=self.canvas_frame, anchor="nw")
-        canvas.pack(side="left", fill=BOTH)
-
-        def t(event): pass
-        self.canvas_frame.bind("<Configure>", t)
-
-        # Create the different inputs for the variables
         def generateInputFields():
             self.variable_fields = []
             for key in varmap:
@@ -124,7 +113,7 @@ class Application(tk.Frame):
                 default = varmap[key][1]
 
                 # sub = Frame(self.input_fields_frame)
-                sub = Frame(self.canvas_frame)
+                sub = Frame(self.input_fields_frame.interior)
 
                 v = tk.StringVar()
                 v.set(default)
@@ -144,6 +133,7 @@ class Application(tk.Frame):
                 sub.pack(side="top", anchor="w", fill="both")
                 self.variable_fields.append(sub)
 
+        generateInputFields()
         generateInputFields()
 
         self.lbtn_frame = Frame(self)
