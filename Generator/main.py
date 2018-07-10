@@ -10,11 +10,11 @@ import sys
 import csv
 
 from tkinter_utils import *
-
 from Tkinter import LEFT, Grid, Frame, Y, RIGHT, BOTH
-
 from functools import *
 from ntpath import basename
+
+import subprocess
 
 FONT = 16
 SAVE = "save"
@@ -152,7 +152,6 @@ class Application(tk.Frame):
                 self.variable_fields.append(sub)
 
         generateInputFields()
-        generateInputFields()
 
         self.lbtn_frame = Frame(self)
         self.lbtn_frame.grid(row=2, column=0)
@@ -228,6 +227,9 @@ class Application(tk.Frame):
             for row in the_list:
                 writer.writerow(row)
             writer.writerow(values)
+
+        # Reload axis
+        subprocess.Popen(["axis-remote", "-r"])
 
 def extractVariables():
     lines = ""
