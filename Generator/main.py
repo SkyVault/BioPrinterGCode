@@ -1,5 +1,15 @@
 #!/usr/bin/env python
 
+""" 
+TODO:
+
+1) Add a auto load check box, that will issue the axis-remote 
+command to load the gcode file
+
+2) Add a check box that will auto increment the file name
+
+"""
+
 import pickle
 import Tkinter as tk
 import tkFileDialog
@@ -34,6 +44,8 @@ else:
         "outfile": "zamboni_1.ngc",
         "template": "zamboni.ngc_template",
         "csv": "log.csv",
+        "autoload": "1",
+        "autoinc": "0",
     }
     with open(SAVE, 'wb') as f:
         pickle.dump(ToSave, f, protocol=pickle.HIGHEST_PROTOCOL)
@@ -185,6 +197,17 @@ class Application(tk.Frame):
         self.quitButton.config(font=("Courier", FONT))
         self.quitButton.pack(side="left")
 
+        self.check_box_frame = Frame(self)
+        self.check_box_frame.grid(column=0, row=3)
+
+        self.should_auto_load_var = tk.IntVar(value=int(ToSave["autoload"]))
+        c = tk.Checkbutton(self.check_box_frame, text="Auto load gcode", variable=self.should_auto_load_var)
+        c.pack(side="left")
+
+        self.should_auto_inc_var = tk.IntVar(int(ToSave["autoinc"]))
+        c = tk.Checkbutton(self.check_box_frame, text="Auto increment filename", variable=self.should_auto_inc_var)
+        c.pack(side="left")
+             
 
     def addFileName(self, val):
         path = self.filepathoutvar.get()
@@ -230,6 +253,16 @@ class Application(tk.Frame):
 
         # Reload axis
         subprocess.Popen(["axis-remote", "-r"])
+
+        if self.should_auto_load_var.get() == 1:
+            current_file = self.filepathoutvar.get()
+            subprocess.Popen(["axis-remote", current_file])
+
+        if self.should_auto_inc_var.get() == 1:
+            self.addFileName(1)
+
+        Save()
+        
 
 def extractVariables():
     lines = ""
