@@ -9,6 +9,7 @@ command to load the gcode file
 2) Add a check box that will auto increment the file name
 
 """
+last_was_held = False
 
 import pickle
 import Tkinter as tk
@@ -23,6 +24,7 @@ from tkinter_utils import *
 from Tkinter import LEFT, Grid, Frame, Y, RIGHT, BOTH
 from functools import *
 from ntpath import basename
+from linuxcnc_control import LinuxCncMachine
 
 import subprocess
 
@@ -207,7 +209,38 @@ class Application(tk.Frame):
         self.should_auto_inc_var = tk.IntVar(int(ToSave["autoinc"]))
         c = tk.Checkbutton(self.check_box_frame, text="Auto increment filename", variable=self.should_auto_inc_var)
         c.pack(side="left")
-             
+
+        # Connect to axis
+        self.machine = LinuxCncMachine()
+        self.machine.poll()
+
+        # Axis controller panel
+        self.controls_frame = Frame(self)             
+        self.controls_frame.grid(column=2, row=0)
+    
+        self.moveUp = HoldableButton(self, "Hello")
+        self.moveUp.grid(column=0, row=5)
+
+        # self.machine.poll()
+        
+        # Start the main loop
+        def _update():
+            self.update()
+            self.after(100, _update)
+        self.after(100, _update)
+
+    def update(self):
+        self.machine.poll()
+
+        global last_was_held
+        
+        if self.moveUp.isHeld():
+            last_was_held = True
+            self.machine.moveSpindleDown()
+        else:
+            if last_was_held:
+                last_was_held = False
+                self.machine.resetSpindle()
 
     def addFileName(self, val):
         path = self.filepathoutvar.get()

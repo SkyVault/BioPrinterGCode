@@ -33,7 +33,7 @@ M5 (Stop the spindle if it's left on)
 #<_l> = 36 (36) (mm length)
 #<_width> = 36 (36) (mm width)
 #<_delta> = .75 (.75) (mm inter-row&column spacing)
-#<_layerH> = .08 (.08) (mm layer height)
+#<_layerH> = .04 (.08) (mm layer height)
 
 ;coordinates
 ; #<_z0> = ? (2)  (Initial Height of Needle Tip) (5)
@@ -52,7 +52,7 @@ M5 (Stop the spindle if it's left on)
 #<_step> = 0 (0)
 
 ;counter maximums
-#<_layers> = 50 (20)
+#<_layers> = 10 (20)
 
 #<_ystepf> = FIX[#<_l>/#<_delta>](_____-[#<_l> MOD #<_delta>]/#<_delta>])
 #<_xstepf> = FIX[#<_width>/#<_delta>]([_____-[#<_width> MOD #<_delta>]/#<_delta>])

@@ -7,6 +7,31 @@ import Tkinter as tk
 
 # http://tkinter.unpythonic.net/wiki/VerticalScrolledFrame
 
+# Button with press and release events
+class HoldableButton(Button):
+    def __init__(self, root, text="hold me"):
+        self.running = False
+
+        Button.__init__(self, root, text=text)
+
+        def _start(event):
+            self.start(event) 
+
+        def _stop(event):
+            self.stop(event)
+
+        self.bind("<ButtonPress-1>", _start)
+        self.bind("<ButtonRelease-1>", _stop)
+
+    def isHeld(self):
+        return self.running
+
+    def start(self, event):
+        self.running = True 
+
+    def stop(self, event):
+        self.running = False
+
 class VerticalScrolledFrame(Frame):
     """A pure Tkinter scrollable frame that actually works!
     * Use the 'interior' attribute to place widgets inside the scrollable frame
