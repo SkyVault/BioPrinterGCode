@@ -1,0 +1,163 @@
+G21 (mm)
+G90 (Absolute distance mode)
+G55 (Machine Plane Coordinates) 
+G64 (Turn off exact stop check)
+M5 (Stop the spindle if it's left on)
+
+#<_printing_speed> = 1100 (Speed of the print as it moves along the straight line)
+#<_margin_speed_scalar> = 1.28 (Margin Speed Scalar: the return speed on the margin)
+
+#<_counter_clockwise_speed> = 0.0006 (extrude: extruder motor counter clockwise from top 0.005 to 0.007)
+
+#<_should_extrude_on_corners> = 0 (1 extrude on corners, 0 no extrude on corners)
+#<_margin> = 8
+
+; #<_pause> = .0001 (wait time, used at corners)
+#<_corner_wait_time> = .0001 (wait time, used at corners)
+
+;work dimensions
+#<_l> = 36 (mm length)
+#<_width> = 36 (mm width)
+#<_delta> = .75 (mm inter-row&column spacing)
+#<_layerH> = .08 (mm layer height)
+
+;coordinates
+; #<_z0> = 2  (Initial Height of Needle Tip) (5)
+; #<_z0> = 1  (Initial Height of Needle Tip) (5)
+
+#<_zz> = 2
+
+#<_x0> = 0 (initial x)
+#<_xx> = #<_x0> (x)
+
+#<_y0> = 0 (initial y)
+#<_yy> = #<_y0> (y) 
+
+;counters
+#<_zstep> = 0
+#<_step> = 0
+
+o<proc_perge> sub
+    #<_ystepf> = FIX[#<_l>/#<_delta>](_____-[#<_l> MOD #<_delta>]/#<_delta>])
+    #<_xstepf> = FIX[#<_width>/#<_delta>]([_____-[#<_width> MOD #<_delta>]/#<_delta>])
+
+    ;#<_yy> = [#<_yy> + #<_l> + 20]         ; position purge routine (y)
+
+    #<_xx> = [#<_xx> - #<_width>+7]         ; position purge routine (x)
+    G0 X[#<_xx>] Y[#<_yy>] Z10              ; position purge routine
+
+    ; Do the purge 
+    M3 S0.005                            ;literal purge
+    o11 while [#<_step> LE 0]         ;'timer' for purge
+    	;#<_yy> = [#<_yy> + #<_delta>] (shows iterations for debugging)
+    	#<_xx> = [#<_xx> + 0.25*#<_width>*[2*[#<_step> MOD 2]-1]]    ;remind linuxcnc how to dance
+    	G1 X[#<_xx>] F#<_printing_speed>                                     ;travel (the real time filler)
+    	#<_step>=[#<_step> + 1]                                     ;linuxcnc doesn't like infinity...
+    o11 endwhile
+    
+    M4 S0.05                            ;back up extruder to relieve excess pressure 
+    o12 while [#<_step> LE 0]         ;'timer' for purge
+    	;#<_yy> = [#<_yy> + #<_delta>] (shows iterations for debugging)
+    	#<_xx> = [#<_xx> + 0.25*#<_width>*[2*[#<_step> MOD 2]-1]]    ;remind linuxcnc how to dance
+    	G1 X[#<_xx>] F#<_printing_speed>                                     ;travel (the real time filler)
+    	#<_step>=[#<_step> + 1]                                     ;linuxcnc doesn't like infinity...
+    o12 endwhile
+    M3
+    
+    S#<_counter_clockwise_speed>       ;slow down the extruder and allow the pressure to equilibrate
+    o13 while [#<_step> LE 35]
+    	;G1 X[#<_xx> - #<_margin>*[2*[#<_step> MOD 2]-1]] F#<_printing_speed> ;margin code (equilibration)
+    	;G0 Y[#<_yy>] F#<_printing_speed>                                     ;margin code (equilibration)
+    	;G1 X[#<_xx>] F#<_printing_speed>                                     ;margin code (equilibration)
+    	;#<_yy> = [#<_yy> + #<_delta>] (shows iterations for debugging)
+    	#<_xx> = [#<_xx> + 0.5*#<_width>*[2*[#<_step> MOD 2]-1]]
+    	G1 X[#<_xx>] F#<_printing_speed>
+    	#<_step>=[#<_step> + 1]
+    o13 endwhile
+o<proc_perge> endsub
+
+; o<proc_perge> call
+
+; TODO(Dustin): Make this into a procedure?
+#<_xx> = #<_x0> ;reset variables assumed to have previously stated initial values
+#<_yy> = #<_y0> ;reset variables assumed to have previously stated initial values
+#<_step> = 0    ;reset variables assumed to have previously stated initial values
+M5
+; Purge done
+
+; Part generation
+; Generate_Rectangle_Matrix(16, 32, 0.85, 0.090) 
+
+#<_layer_height> = 0.090
+
+#<_cursor_x> = 0
+#<_cursor_y> = 0
+#<_cursor_z> = 0
+
+#<_offset_x> = 40
+#<_offset_y> = 40
+
+#<_direction> = 1
+#<_which> = 1
+#<_fill_spacing> = 0.85
+
+#<_start_extensions> = 5
+#<_extensions> = #<_start_extensions>
+
+#<_layers> = 132
+#<_size> = 16
+
+#<_shrink_each_layer> = 1
+
+;G1 Z[#<_cursor_z>] F[#<_printing_speed>]
+;#<_cursor_z> = [#<_cursor_z> + #<_layer_height>]
+;G1 Z[#<_cursor_z>] F[#<_printing_speed>]
+
+; Go to the start position
+G1 X0 Y0 Z0 F[#<_printing_speed> * 2]
+
+G90 ; Absolute positioning NOTE: G91 is incremental positioning
+
+#<_layer_index> = 0
+#<_layer> = 0
+o20 repeat [#<_layers>]
+
+    o21 if [#<_which> EQ 1]
+        o30 while [#<_cursor_x> LT #<_size>]
+            #<_cursor_y> = [[#<_direction> * #<_size> * 0.5] + [#<_size> * 0.5 + [#<_extensions> * #<_direction>]]]
+            G1 X[#<_cursor_x> + #<_offset_x>] Y[#<_cursor_y> + #<_offset_y>] F[#<_printing_speed>]
+            #<_cursor_x> = [#<_cursor_x> + #<_fill_spacing>]
+            G1 X[#<_cursor_x> + #<_offset_x>] Y[#<_cursor_y> + #<_offset_y>] F[#<_printing_speed>]
+            #<_direction> = [#<_direction> * -1]
+        o30 endwhile
+    o21 else
+        o31 while [#<_cursor_y> LT #<_size>]
+            #<_cursor_x> = [[#<_direction> * #<_size> * 0.5] + [#<_size> * 0.5 + [#<_extensions> * #<_direction>]]]
+            G1 X[#<_cursor_x> + #<_offset_x>] Y[#<_cursor_y> + #<_offset_y>] F[#<_printing_speed>]
+            #<_cursor_y> = [#<_cursor_y> + #<_fill_spacing>]
+            G1 X[#<_cursor_x> + #<_offset_x>] Y[#<_cursor_y> + #<_offset_y>] F[#<_printing_speed>]
+            #<_direction> = [#<_direction> * -1]
+        o31 endwhile
+    o21 endif
+    #<_extensions> = [#<_start_extensions> - [[1.0 * #<_layer_index>] / [1.0 * #<_layers>] * [1.0 * #<_start_extensions>]]]
+
+    ; Move a layer up
+    G1 Z[#<_cursor_z>] F[#<_printing_speed>]
+    #<_cursor_z> = [#<_cursor_z> + #<_layer_height>]
+    G1 Z[#<_cursor_z>] F[#<_printing_speed>]
+
+    #<_which> = [#<_which> * -1]
+    #<_cursor_x> = 0
+    #<_cursor_y> = 0
+
+    o100 if [#<_shrink_each_layer> EQ 1]
+        o101 if [#<_layer_height> GT 1]
+            
+        o101 endif
+    o100 endif
+
+    #<_layer_index> = [#<_layer_index> + 1]
+    #<_layer>=[#<_layer> + 1]
+o20 endrepeat
+
+M30
