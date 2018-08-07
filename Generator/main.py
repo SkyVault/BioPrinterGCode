@@ -216,12 +216,13 @@ class Application(tk.Frame):
 
         # Axis controller panel
         self.controls_frame = Frame(self)             
-        self.controls_frame.grid(column=2, row=0)
+        self.controls_frame.grid(column=1, row=5)
     
         self.moveUp = HoldableButton(self, "Hello")
-        self.moveUp.grid(column=0, row=5)
+        self.moveUp.grid(column=2, row=5)
 
         # self.machine.poll()
+        self.machine.homeAll()
         
         # Start the main loop
         def _update():

@@ -37,6 +37,10 @@ class LinuxCncMachine():
             return (0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
         return self.data['actual_position']
 
+    def homeAll(self):
+        for i in xrange(0, 9):
+            self.command.home(i)
+
     def moveSpindleDown(self):
         self.command.spindle(linuxcnc.SPINDLE_FORWARD)
 

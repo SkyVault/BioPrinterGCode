@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=bio9
+Exec=/usr/bin/linuxcnc '/home/engr-d510/linuxcnc/configs/bio2/bio9.ini'
+Type=Application
+Comment=
+Icon=linuxcncicon
