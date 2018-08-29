@@ -4,6 +4,12 @@ G55 (Machine Plane Coordinates)
 G64 (Turn off exact stop check)
 M5 (Stop the spindle if it's left on)
 
+; 40 40, should be the offset for the 1gbp
+; 15 15, should be the offset for the 2gbp
+
+#<_offset_x> = 15 (40)( This determines the starting x location of the part )
+#<_offset_y> = 15 (40)( This determines the starting y location of the part )
+
 #<_printing_speed> = 1100 (Speed of the print as it moves along the straight line)
 #<_margin_speed_scalar> = 1.28 (Margin Speed Scalar: the return speed on the margin)
 
@@ -76,7 +82,7 @@ o<proc_perge> sub
     o13 endwhile
 o<proc_perge> endsub
 
-; o<proc_perge> call
+o<proc_perge> call
 
 ; TODO(Dustin): Make this into a procedure?
 #<_xx> = #<_x0> ;reset variables assumed to have previously stated initial values
@@ -93,9 +99,6 @@ M5
 #<_cursor_x> = 0
 #<_cursor_y> = 0
 #<_cursor_z> = 0
-
-#<_offset_x> = 40
-#<_offset_y> = 40
 
 #<_direction> = 1
 #<_which> = 1
