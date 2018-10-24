@@ -82,7 +82,7 @@ o<proc_perge> sub
     o13 endwhile
 o<proc_perge> endsub
 
-; o<proc_perge> call
+o<proc_perge> call
 
 ; TODO(Dustin): Make this into a procedure?
 #<_xx> = #<_x0> ;reset variables assumed to have previously stated initial values

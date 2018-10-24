@@ -14,7 +14,7 @@ M5 (Stop the spindle if it's left on)
 #<_printing_speed> = ? (1100) (Speed of the print as it moves along the straight line)
 #<_margin_speed_scalar> = ? (1.28) (Margin Speed Scalar: the return speed on the margin)
 
-#<_counter_clockwise_speed> = ? (0.0006) (extrude: extruder motor counter clockwise from top 0.005 to 0.007)
+#<_extrusion_rate> = ? (0.00008) (extrude: extruder motor counter clockwise from top 0.005 to 0.007)
 
 ; Not used
 ; #<_clockwise_speed> = ? (0.005) (extruder back up, used before inter-layer pauses)
@@ -58,43 +58,45 @@ M5 (Stop the spindle if it's left on)
 #<_xstepf> = FIX[#<_width>/#<_delta>]([_____-[#<_width> MOD #<_delta>]/#<_delta>])
 
 ;#<_yy> = [#<_yy> + #<_l> + 20]     ;position purge routine (y)
-#<_xx> = [#<_xx> - #<_width>+7] ;position purge routine (x)
-G0 X[#<_xx>] Y[#<_yy>] Z10         ;position purge routine
+;#<_xx> = [#<_xx> - #<_width>+7] ;position purge routine (x)
+;G0 X[#<_xx>] Y[#<_yy>] Z10         ;position purge routine
+;
+;M3 S0.005                            ;literal purge
+;o100 while [#<_step> LE 0]         ;'timer' for purge
+;	;#<_yy> = [#<_yy> + #<_delta>] (shows iterations for debugging)
+;	#<_xx> = [#<_xx> + 0.25*#<_width>*[2*[#<_step> MOD 2]-1]]    ;remind linuxcnc how to dance
+;	G1 X[#<_xx>] F#<_printing_speed>                                     ;travel (the real time filler)
+;	#<_step>=[#<_step> + 1]                                     ;linuxcnc doesn't like infinity...
+;o100 endwhile
+;
+;M4 S0.05                            ;back up extruder to relieve excess pressure 
+;o101 while [#<_step> LE 0]         ;'timer' for purge
+;	;#<_yy> = [#<_yy> + #<_delta>] (shows iterations for debugging)
+;	#<_xx> = [#<_xx> + 0.25*#<_width>*[2*[#<_step> MOD 2]-1]]    ;remind linuxcnc how to dance
+;	G1 X[#<_xx>] F#<_printing_speed>                                     ;travel (the real time filler)
+;	#<_step>=[#<_step> + 1]                                     ;linuxcnc doesn't like infinity...
+;o101 endwhile
+;M3
+;
+;S#<_extrusion_rate>       ;slow down the extruder and allow the pressure to equilibrate
+;o105 while [#<_step> LE 35]
+;	;G1 X[#<_xx> - #<_margin>*[2*[#<_step> MOD 2]-1]] F#<_printing_speed> ;margin code (equilibration)
+;	;G0 Y[#<_yy>] F#<_printing_speed>                                     ;margin code (equilibration)
+;	;G1 X[#<_xx>] F#<_printing_speed>                                     ;margin code (equilibration)
+;	;#<_yy> = [#<_yy> + #<_delta>] (shows iterations for debugging)
+;	#<_xx> = [#<_xx> + 0.5*#<_width>*[2*[#<_step> MOD 2]-1]]
+;	G1 X[#<_xx>] F#<_printing_speed>
+;	#<_step>=[#<_step> + 1]
+;o105 endwhile
+;#<_xx> = #<_x0> ;reset variables assumed to have previously stated initial values
+;#<_yy> = #<_y0> ;reset variables assumed to have previously stated initial values
+;#<_step> = 0    ;reset variables assumed to have previously stated initial values
+;M5
 
-M3 S0.005                            ;literal purge
-o100 while [#<_step> LE 0]         ;'timer' for purge
-	;#<_yy> = [#<_yy> + #<_delta>] (shows iterations for debugging)
-	#<_xx> = [#<_xx> + 0.25*#<_width>*[2*[#<_step> MOD 2]-1]]    ;remind linuxcnc how to dance
-	G1 X[#<_xx>] F#<_printing_speed>                                     ;travel (the real time filler)
-	#<_step>=[#<_step> + 1]                                     ;linuxcnc doesn't like infinity...
-o100 endwhile
+; G1 X[#<_xx>] Y[#<_yy>] Z[#<_zz>] F#<_printing_speed>
 
-M4 S0.05                            ;back up extruder to relieve excess pressure 
-o101 while [#<_step> LE 0]         ;'timer' for purge
-	;#<_yy> = [#<_yy> + #<_delta>] (shows iterations for debugging)
-	#<_xx> = [#<_xx> + 0.25*#<_width>*[2*[#<_step> MOD 2]-1]]    ;remind linuxcnc how to dance
-	G1 X[#<_xx>] F#<_printing_speed>                                     ;travel (the real time filler)
-	#<_step>=[#<_step> + 1]                                     ;linuxcnc doesn't like infinity...
-o101 endwhile
-M3
-
-S#<_counter_clockwise_speed>       ;slow down the extruder and allow the pressure to equilibrate
-o105 while [#<_step> LE 35]
-	;G1 X[#<_xx> - #<_margin>*[2*[#<_step> MOD 2]-1]] F#<_printing_speed> ;margin code (equilibration)
-	;G0 Y[#<_yy>] F#<_printing_speed>                                     ;margin code (equilibration)
-	;G1 X[#<_xx>] F#<_printing_speed>                                     ;margin code (equilibration)
-	;#<_yy> = [#<_yy> + #<_delta>] (shows iterations for debugging)
-	#<_xx> = [#<_xx> + 0.5*#<_width>*[2*[#<_step> MOD 2]-1]]
-	G1 X[#<_xx>] F#<_printing_speed>
-	#<_step>=[#<_step> + 1]
-o105 endwhile
-#<_xx> = #<_x0> ;reset variables assumed to have previously stated initial values
-#<_yy> = #<_y0> ;reset variables assumed to have previously stated initial values
-#<_step> = 0    ;reset variables assumed to have previously stated initial values
-M5
-
-G1 X[#<_xx>] Y[#<_yy>] Z[#<_zz>] F#<_printing_speed>
-M3 S#<_counter_clockwise_speed>
+G1 X[#<_xx>] Y[#<_yy>] F#<_printing_speed>
+M3 S#<_extrusion_rate>
 o110 while [#<_zstep> LE FIX[[#<_layers> - 1]/2]] (4)
 		
 	;G1 Y[#<_yy> + #<_margin>+5] F#<_printing_speed>

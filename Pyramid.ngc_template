@@ -13,7 +13,8 @@ M5 (Stop the spindle if it's left on)
 #<_printing_speed> = 1100 (Speed of the print as it moves along the straight line)
 #<_margin_speed_scalar> = 1.28 (Margin Speed Scalar: the return speed on the margin)
 
-#<_counter_clockwise_speed> = 0.0006 (extrude: extruder motor counter clockwise from top 0.005 to 0.007)
+#<_extrusion_rate> = 0.00008 (extrude: extruder motor counter clockwise from top 0.005 to 0.007)
+#<_purge_rate> = 0.00008
 
 #<_should_extrude_on_corners> = 0 (1 extrude on corners, 0 no extrude on corners)
 #<_margin> = 8
@@ -53,7 +54,7 @@ o<proc_perge> sub
     G0 X[#<_xx>] Y[#<_yy>] Z10              ; position purge routine
 
     ; Do the purge 
-    M3 S0.005                            ;literal purge
+    M3 S#<_purge_rate> ;literal purge
     o11 while [#<_step> LE 0]         ;'timer' for purge
     	;#<_yy> = [#<_yy> + #<_delta>] (shows iterations for debugging)
     	#<_xx> = [#<_xx> + 0.25*#<_width>*[2*[#<_step> MOD 2]-1]]    ;remind linuxcnc how to dance
@@ -70,7 +71,7 @@ o<proc_perge> sub
     o12 endwhile
     M3
     
-    S#<_counter_clockwise_speed>       ;slow down the extruder and allow the pressure to equilibrate
+    S#<_extrusion_rate>       ;slow down the extruder and allow the pressure to equilibrate
     o13 while [#<_step> LE 35]
     	;G1 X[#<_xx> - #<_margin>*[2*[#<_step> MOD 2]-1]] F#<_printing_speed> ;margin code (equilibration)
     	;G0 Y[#<_yy>] F#<_printing_speed>                                     ;margin code (equilibration)
@@ -82,7 +83,7 @@ o<proc_perge> sub
     o13 endwhile
 o<proc_perge> endsub
 
-; o<proc_perge> call
+o<proc_perge> call
 
 ; TODO(Dustin): Make this into a procedure?
 #<_xx> = #<_x0> ;reset variables assumed to have previously stated initial values
