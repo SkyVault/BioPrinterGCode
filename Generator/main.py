@@ -152,15 +152,20 @@ class Application(tk.Frame):
 
         Label(self.templates_dropdown_group, text="Choose a Template").grid(row = 0, column = 0)
         self.templates_dropdown = tk.OptionMenu(self.templates_dropdown_group, self.which_template_var, *Templates)
-        self.templates_dropdown.grid(column=1, row=0)
+        self.templates_dropdown.grid(column=0, row=1)
         self.templates_dropdown_group.grid(column=0, row=1)
+
+        def onChangedTemplate(*args):
+            print("yooo")
+
+        self.which_template_var.trace('w', onChangedTemplate)
 
         #####################
         # Creating the rest #
         #####################
         
         start_row = 1
-        self.filepathoutentry, self.filepathoutvar = makeFilepathInput(self, outfile_pathchange, default_path=ToSave["outfile"], label="output file")
+        self.filepathoutentry, self.filepathoutvar = makeFilepathInput(self, outfile_pathchange, default_path=ToSave["outfile"], label="Output File Name")
         self.filepathoutentry.grid(row=start_row, column=1)
 
         self.stringvars = {}
@@ -297,7 +302,8 @@ class Application(tk.Frame):
             values.append(self.stringvars[val].get())
 
         newcontent = self.content.format(*values)
-        with open(self.filepathoutvar.get(), "w") as f:
+        final_path = "output/" + self.filepathoutvar.get()
+        with open(final_path, "w") as f:
             f.write(newcontent)
         
         names = [self.varmap[_n][0] for _n in self.varmap]
