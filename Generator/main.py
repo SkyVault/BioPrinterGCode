@@ -33,6 +33,22 @@ SAVE = "save"
 
 ToSave = {}
 
+Profiles = {
+    "Solution 1:3",
+    "Solution 1:5",
+    "Solution 1:6",
+    "Solution 1:7",
+}
+
+# Read the list of templates from the directory
+Templates = {}
+for _, _, files in os.walk('templates/'):
+    for f in files:
+        name = f.split('.')[0].capitalize()
+        Templates[name] = 0
+
+print(Templates)
+
 def Confirm(msg):
     result = tkMessageBox.askquestion("Reset to default values?", "Are You Sure?", icon='warning')
     return result == "yes"
@@ -123,6 +139,10 @@ class Application(tk.Frame):
         _help.add_command(label="Show Documentation", command=exit)
         self.menubar.add_cascade(label="Help", menu=_help)
 
+        ####################################
+        # Creating the Profile swicher bar #
+        ####################################
+
         self.filepathoutentry, self.filepathoutvar = makeFilepathInput(self, outfile_pathchange, default_path=ToSave["outfile"], label="output file")
         self.filepathoutentry.grid(row=0, column=1)
 
@@ -211,18 +231,18 @@ class Application(tk.Frame):
         c.pack(side="left")
 
         # Connect to axis
-        self.machine = LinuxCncMachine()
-        self.machine.poll()
+        #self.machine = LinuxCncMachine()
+        #self.machine.poll()
 
-        # Axis controller panel
-        self.controls_frame = Frame(self)             
-        self.controls_frame.grid(column=1, row=5)
+        ## Axis controller panel
+        #self.controls_frame = Frame(self)             
+        #self.controls_frame.grid(column=1, row=5)
     
-        self.moveUp = HoldableButton(self, "Hello")
-        self.moveUp.grid(column=2, row=5)
+        #self.moveUp = HoldableButton(self, "Hello")
+        #self.moveUp.grid(column=2, row=5)
 
-        # self.machine.poll()
-        self.machine.homeAll()
+        ## self.machine.poll()
+        #self.machine.homeAll()
         
         # Start the main loop
         def _update():
@@ -231,17 +251,17 @@ class Application(tk.Frame):
         self.after(100, _update)
 
     def update(self):
-        self.machine.poll()
+        #self.machine.poll()
 
         global last_was_held
         
-        if self.moveUp.isHeld():
-            last_was_held = True
-            self.machine.moveSpindleDown()
-        else:
-            if last_was_held:
-                last_was_held = False
-                self.machine.resetSpindle()
+        #if self.moveUp.isHeld():
+        #    last_was_held = True
+        #    self.machine.moveSpindleDown()
+        #else:
+        #    if last_was_held:
+        #        last_was_held = False
+        #        self.machine.resetSpindle()
 
     def addFileName(self, val):
         path = self.filepathoutvar.get()
@@ -286,14 +306,14 @@ class Application(tk.Frame):
             writer.writerow(values)
 
         # Reload axis
-        subprocess.Popen(["axis-remote", "-r"])
+        # subprocess.Popen(["axis-remote", "-r"])
 
-        if self.should_auto_load_var.get() == 1:
-            current_file = self.filepathoutvar.get()
-            subprocess.Popen(["axis-remote", current_file])
+        # if self.should_auto_load_var.get() == 1:
+        #     current_file = self.filepathoutvar.get()
+        #     subprocess.Popen(["axis-remote", current_file])
 
-        if self.should_auto_inc_var.get() == 1:
-            self.addFileName(1)
+        # if self.should_auto_inc_var.get() == 1:
+        #     self.addFileName(1)
 
         Save()
         
