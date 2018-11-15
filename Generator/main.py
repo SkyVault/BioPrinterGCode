@@ -45,9 +45,7 @@ Templates = {}
 for _, _, files in os.walk('templates/'):
     for f in files:
         name = f.split('.')[0].capitalize()
-        Templates[name] = 0
-
-print(Templates)
+        Templates[name] = f
 
 def Confirm(msg):
     result = tkMessageBox.askquestion("Reset to default values?", "Are You Sure?", icon='warning')
@@ -143,16 +141,35 @@ class Application(tk.Frame):
         # Creating the Profile swicher bar #
         ####################################
 
+        if len(Templates.keys()) == 0:
+            print("Error: No templates in the templates folder")
+            exit()
+
+        self.which_template_var = tk.StringVar(self)
+        self.which_template_var.set(Templates.keys()[0])
+
+        self.templates_dropdown_group = Frame(self)
+
+        Label(self.templates_dropdown_group, text="Choose a Template").grid(row = 0, column = 0)
+        self.templates_dropdown = tk.OptionMenu(self.templates_dropdown_group, self.which_template_var, *Templates)
+        self.templates_dropdown.grid(column=1, row=0)
+        self.templates_dropdown_group.grid(column=0, row=0)
+
+        #####################
+        # Creating the rest #
+        #####################
+        
+        start_row = 1
         self.filepathoutentry, self.filepathoutvar = makeFilepathInput(self, outfile_pathchange, default_path=ToSave["outfile"], label="output file")
-        self.filepathoutentry.grid(row=0, column=1)
+        self.filepathoutentry.grid(row=start_row, column=1)
 
         self.filepathentry, self.filepathvar = makeFilepathInput(self, templatefile_pathchange,  default_path=ToSave["template"], label="template file")
-        self.filepathentry.grid(row=0, column=0)
+        self.filepathentry.grid(row=start_row, column=0)
 
         self.stringvars = {}
 
         self.input_fields_frame = VerticalScrolledFrame(self)
-        self.input_fields_frame.grid(row=1, column=0, columnspan=2)
+        self.input_fields_frame.grid(row=start_row + 1, column=0, columnspan=2)
 
         def generateInputFields():
             self.variable_fields = []
@@ -188,7 +205,7 @@ class Application(tk.Frame):
         generateInputFields()
 
         self.lbtn_frame = Frame(self)
-        self.lbtn_frame.grid(row=2, column=0)
+        self.lbtn_frame.grid(row=start_row+2, column=0)
 
         self.generateButton = tk.Button(self.lbtn_frame, text="Generate", command=self.generatePart)
         self.generateButton.config(font=("Courier", FONT))
@@ -205,7 +222,7 @@ class Application(tk.Frame):
         resetButton.pack(side="left")
 
         self.btn_frame = Frame(self)
-        self.btn_frame.grid(column=1, row=2)
+        self.btn_frame.grid(column=1, row=start_row+2)
 
         self.decButton = tk.Button(self.btn_frame, text="-", command= lambda: self.addFileName(-1))
         self.decButton.config(font=("Courier", FONT))
@@ -220,7 +237,7 @@ class Application(tk.Frame):
         self.quitButton.pack(side="left")
 
         self.check_box_frame = Frame(self)
-        self.check_box_frame.grid(column=0, row=3)
+        self.check_box_frame.grid(column=0, row=start_row+3)
 
         self.should_auto_load_var = tk.IntVar(value=int(ToSave["autoload"]))
         c = tk.Checkbutton(self.check_box_frame, text="Auto load gcode", variable=self.should_auto_load_var)
