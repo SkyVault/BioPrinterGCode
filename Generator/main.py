@@ -153,7 +153,7 @@ class Application(tk.Frame):
         Label(self.templates_dropdown_group, text="Choose a Template").grid(row = 0, column = 0)
         self.templates_dropdown = tk.OptionMenu(self.templates_dropdown_group, self.which_template_var, *Templates)
         self.templates_dropdown.grid(column=1, row=0)
-        self.templates_dropdown_group.grid(column=0, row=0)
+        self.templates_dropdown_group.grid(column=0, row=1)
 
         #####################
         # Creating the rest #
@@ -162,9 +162,6 @@ class Application(tk.Frame):
         start_row = 1
         self.filepathoutentry, self.filepathoutvar = makeFilepathInput(self, outfile_pathchange, default_path=ToSave["outfile"], label="output file")
         self.filepathoutentry.grid(row=start_row, column=1)
-
-        self.filepathentry, self.filepathvar = makeFilepathInput(self, templatefile_pathchange,  default_path=ToSave["template"], label="template file")
-        self.filepathentry.grid(row=start_row, column=0)
 
         self.stringvars = {}
 
